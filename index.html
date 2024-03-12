@@ -1,0 +1,140 @@
+<html>
+<head>
+<title>Luke's CPS Test</title>
+<style>
+    body {
+        background-color: #000000;
+    }
+</style>
+<style type="text/css">
+  #content {
+    width: 200px;
+    border: 1px solid #ffffff;
+    font-size: 20px;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding: 20px;
+    user-select: none;
+    color: #ffffff;
+    background-color: rgb(16, 16, 16);
+    font-family: 'Segoe UI Semibold', sans-serif;
+  }
+
+  #clickarea {
+    width: 500px;
+    height : 300px;
+    border: 2px solid #ffffff;
+    font-size: 20px;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding: 20px;
+    position: relative;
+    color: #ffffff;
+    background-color: rgb(16, 16, 16);
+    font-family: 'Segoe UI Semibold', sans-serif;
+  }
+
+  #start {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    border: 0;
+    line-height: 2.5;
+    padding: 0 20px;
+    font-size: 1rem;
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 1px 1px 1px #000000;
+    border-radius: 10px;
+    background-color: rgba(50,50,50, 1);
+    font-family: 'Segoe UI Semibold', sans-serif;
+    background-image: linear-gradient(to top left,
+                  rgba(0, 0, 0, .2),
+                  rgba(0, 0, 0, .2) 30%,
+                  rgba(0, 0, 0, 0));
+    box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
+                inset -2px -2px 3px rgba(0, 0, 0, .6);
+  }
+
+  #start:hover {
+    background-color: rgb(80, 80, 80);
+  }
+
+  #start:active {
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6);
+  }
+</style>
+</head>
+<body>
+  <div id="content">
+    Timer: <span id="timer"></span><br/>
+    Score: <span id="score"></span><br/>
+    Clicks/s: <span id="clicks"></span>
+  </div>
+  <div id="clickarea">
+    <button id="start">Start</button>
+  </div>
+  <script type="text/javascript">
+    var score;
+    var duration = 5; // seconds
+    var startTime;
+    var ended = true;
+    var timerTxt = document.getElementById("timer");
+    var scoreTxt = document.getElementById("score");
+    var clicksTxt = document.getElementById("clicks");
+    var startBtn = document.getElementById("start");
+    var clickArea = document.getElementById("clickarea");
+    var show = function(elem) {
+      elem.style.display = 'inline';
+    };
+    var hide = function(elem) {
+      elem.style.display = 'none';
+    };
+    function startGame() {
+      hide(startBtn);
+      score = -1;
+      ended = false;
+      startTime = new Date().getTime();
+      var timerId = setInterval(function() {
+        var total = (new Date().getTime() - startTime) / 1000;
+        if (total < duration) {
+          timerTxt.textContent = total.toFixed(3);
+          clicksTxt.textContent = (score / total).toFixed(2);
+        } else {
+          ended = true;
+          clearInterval(timerId);
+          var cps = (score / duration).toFixed(2);
+          timerTxt.textContent = duration.toFixed(3);
+          clicksTxt.textContent = cps;
+          show(startBtn);
+          setTimeout(function() {
+              alert(score + ' clicks in ' + duration + ' seconds, which is ' + cps + ' cps.');
+          }, 10);
+        }
+      }, 1);
+  }
+  function endGame() {
+    var cps = (score / duration).toFixed(2);
+    timerTxt.textContent = duration.toFixed(3);
+    clicksTxt.textContent = clicsBySeconds;
+    show(startBtn);
+    setTimeout(function() {
+      alert(score + ' clicks in ' + duration + 
+      ' seconds, which is ' + cps + 
+      ' cps.');
+    }, 10);
+  }
+  startBtn.addEventListener("click", function(e) {
+    startGame();
+  });
+  clickArea.addEventListener("click", function(e) {
+    if (!ended) {
+      score++;
+      scoreTxt.textContent = score;
+    }
+  });
+</script>
+</body>
