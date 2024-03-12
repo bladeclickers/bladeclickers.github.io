@@ -72,7 +72,7 @@
   <div id="content">
     Timer: <span id="timer"></span><br/>
     Score: <span id="score"></span><br/>
-    Clicks/s: <span id="clicks"></span>
+    CPS: <span id="clicks"></span>
   </div>
   <div id="clickarea">
     <button id="start">Start</button>
@@ -115,17 +115,6 @@
           }, 10);
         }
       }, 1);
-  }
-  function endGame() {
-    var cps = (score / duration).toFixed(2);
-    timerTxt.textContent = duration.toFixed(3);
-    clicksTxt.textContent = clicsBySeconds;
-    show(startBtn);
-    setTimeout(function() {
-      alert(score + ' clicks in ' + duration + 
-      ' seconds, which is ' + cps + 
-      ' cps.');
-    }, 10);
   }
   startBtn.addEventListener("click", function(e) {
     startGame();
