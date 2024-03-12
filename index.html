@@ -73,13 +73,14 @@
     Timer: <span id="timer"></span><br/>
     Score: <span id="score"></span><br/>
     CPS: <span id="clicks"></span>
+    <input id="durationTxt"></input>
+    <button onclick="changeDuration()">Apply Duration</button>
   </div>
   <div id="clickarea">
     <button id="start">Start</button>
   </div>
   <script type="text/javascript">
     var score;
-    var duration = 5; // seconds
     var startTime;
     var ended = true;
     var timerTxt = document.getElementById("timer");
@@ -87,6 +88,13 @@
     var clicksTxt = document.getElementById("clicks");
     var startBtn = document.getElementById("start");
     var clickArea = document.getElementById("clickarea");
+    let duration = 5;
+
+    function changeDuration()
+    {
+        duration = document.getElementById("durationTxt").value;
+    }
+      
     var show = function(elem) {
       elem.style.display = 'inline';
     };
