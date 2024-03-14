@@ -1,0 +1,50 @@
+<style>
+    body {
+        background-color: #000000;
+        color: #ffffff; /* font colour */
+        font-family: 'Segoe UI Semibold', sans-serif;
+        font-size: large;
+    }
+    input {
+        background-color: #505050;
+        color: #ffffff;
+        font-family: 'Segoe UI Semibold', sans-serif;
+        font-size: large;
+        border: 0; /* deletes border */
+        box-shadow: none; /* deletes shadow */
+        border-radius: 0px; /* makes border not visible */
+    }
+    button {
+        background-color: #505050;
+        color: #ffffff;
+        font-family: 'Segoe UI Semibold', sans-serif;
+        font-size: large;
+        border: 0;
+        box-shadow: none;
+        border-radius: 0px;
+    }
+</style>
+
+<center> <!-- centers everything -->
+    <h3>Random number game</h3>
+    <h4>Maximum random number<br>
+    <input type="number" id="max" value="10"></input>
+    <h4>Guess<br>
+    <input type="number" id="numberBox" value="5"><br>
+    <br>
+    <button onclick="submitGuess()">Submit</button>
+</center>
+
+<script>
+    function submitGuess()
+    {
+        if (document.getElementById('numberBox').value == Math.round(Math.random()*document.getElementById('max').value) + 1)
+        {
+            alert("correct");
+        }
+        else
+        {
+            alert("incorrect");
+        }
+    }
+</script>
