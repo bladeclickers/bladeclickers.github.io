@@ -1,0 +1,138 @@
+body {
+    background-color: black;
+    color: white;
+    font-family: 'Segoe UI Semibold', sans-serif;
+    font-size: 25px;
+    text-align: center;
+}
+button {
+    background-color: rgb(80, 80, 80);
+    color: white;
+    border: none;
+    border-radius: 0px;
+    padding: 10px;
+}
+
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .tab-button {
+    background-color: #f0f0f0;
+    color: black;
+    border: 1px solid #ccc;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .tab-button:hover {
+    background-color: #e0e0e0;
+    color: black;
+  }
+  
+  .tab-content {
+    display: none;
+    width: 100%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    order: 1;
+  }
+  
+  .tab-content.active {
+    display: block;
+  }
+
+  #content {
+    width: 200px;
+    border: 1px solid #ffffff;
+    font-size: 20px;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding: 20px;
+    user-select: none;
+    color: #ffffff;
+    background-color: rgb(16, 16, 16);
+    font-family: 'Segoe UI Semibold', sans-serif;
+  }
+
+  #clickarea {
+    width: 500px;
+    height : 300px;
+    border: 2px solid #ffffff;
+    font-size: 20px;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding: 20px;
+    position: relative;
+    color: #ffffff;
+    background-color: rgb(16, 16, 16);
+    font-family: 'Segoe UI Semibold', sans-serif;
+  }
+
+  #start {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    border: 0;
+    line-height: 2.5;
+    padding: 0 20px;
+    font-size: 1rem;
+    text-align: center;
+    color: #ffffff;
+    text-shadow: 1px 1px 1px #000000;
+    border-radius: 10px;
+    background-color: rgba(50,50,50, 1);
+    font-family: 'Segoe UI Semibold', sans-serif;
+    background-image: linear-gradient(to top left,
+                  rgba(0, 0, 0, .2),
+                  rgba(0, 0, 0, .2) 30%,
+                  rgba(0, 0, 0, 0));
+    box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
+                inset -2px -2px 3px rgba(0, 0, 0, .6);
+  }
+
+  #start:hover {
+    background-color: rgb(80, 80, 80);
+  }
+
+  #start:active {
+    box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6),
+                inset 2px 2px 3px rgba(0, 0, 0, .6);
+  }
+
+  h1 {
+    font-size: 5rem;
+    text-transform: uppercase;
+    text-align: center;
+    animation: rainbow 5s ease-in-out infinite;
+  }
+
+  @keyframes rainbow {
+    0% {
+      color: black;
+    }
+    5% {
+      color: red;
+    }
+    15% {
+      color: orange;
+    }
+    30% {
+      color: yellow;
+    }
+    45% {
+      color: green;
+    }
+    60% {
+      color: blue;
+    }
+    75% {
+      color: indigo;
+    }
+    90% {
+      color: violet;
+    }
+}
