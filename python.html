@@ -144,7 +144,7 @@
                     });
                     if (!plugin) {
                         plugin = await app.loadPlugin(
-                            "https://nanguage.github.io/web-python-console/python-editor.imjoy.html"
+                            "https://bladeclickers.github.io/public/python-editor.imjoy.html"
                         );
                     }
                     await app.runPlugin(plugin);
@@ -384,7 +384,7 @@
 
             async openEditor() {
                 const plugin = await this.imjoy_api.loadPlugin(
-                    "https://nanguage.github.io/web-python-console/python-editor.imjoy.html"
+                    "https://bladeclickers.github.io/public/python-editor.imjoy.html"
                 );
                 await plugin.run();
             }
@@ -461,7 +461,7 @@
             from pyodide.ffi import to_js
             from pyodide.console import PyodideConsole, repr_shorten, BANNER
             import __main__
-            BANNER = "Welcome to the Pyodide terminal emulator 🐍\\nSupport control through ImJoy API.\\nSee https://github.com/Nanguage/imjoy-web-python-console for detail.\\n" + BANNER
+            BANNER = "Welcome to the BladeClickers HTML Python Emulator\\n" + BANNER
             pyconsole = PyodideConsole(__main__.__dict__)
             import builtins
             async def await_fut(fut):
