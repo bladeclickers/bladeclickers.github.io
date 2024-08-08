@@ -20,27 +20,7 @@
     flex-direction: column
   }
   
-  #close-btn {
-    margin-top: 10px;
-    position:absolute;
-    top: 2px;
-    right: 22px;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-image: url("x.png");
-    background-position:  right center;
-background-size: cover;
-cursor: pointer;
-transition: 0.2s;
-
-  }
   
-
-  #close-btn:hover {
-    scale: 1.1;
-    transition: 0.2s;
-  }
 
 
   .h1-hero {
