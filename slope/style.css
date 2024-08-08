@@ -1,28 +1,4 @@
 @import url('https://fonts.cdnfonts.com/css/monument-extended');
-
-#ad-container {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    z-index: 99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999;
-  }
-  
-  #ad-circle {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-background-image: url("BGS-circle-HD.png");    
-cursor: pointer;
-position: relative;
-background-position: center center;
-background-size: cover;
-transition: 0.2s;
-
-  }
-  #ad-circle:hover {
-    scale: 1.1;
-     transition: 0.2s;
-  }
   #popup {
     font-family: 'Monument Extended', sans-serif;
     display: none;
