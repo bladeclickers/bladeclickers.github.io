@@ -1,0 +1,164 @@
+{"frames": [
+
+{
+	"filename": "button_backspace.png",
+	"frame": {"x":479,"y":79,"w":80,"h":34},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":80,"h":34},
+	"sourceSize": {"w":86,"h":40}
+},
+{
+	"filename": "button_backspace_HL.png",
+	"frame": {"x":479,"y":41,"w":80,"h":34},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":80,"h":34},
+	"sourceSize": {"w":86,"h":40}
+},
+{
+	"filename": "button_enter.png",
+	"frame": {"x":705,"y":3,"w":90,"h":34},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":90,"h":34},
+	"sourceSize": {"w":96,"h":40}
+},
+{
+	"filename": "button_enter_HL.png",
+	"frame": {"x":667,"y":3,"w":90,"h":34},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":90,"h":34},
+	"sourceSize": {"w":96,"h":40}
+},
+{
+	"filename": "button_normal.png",
+	"frame": {"x":601,"y":41,"w":56,"h":34},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":56,"h":34},
+	"sourceSize": {"w":62,"h":40}
+},
+{
+	"filename": "button_normal_HL.png",
+	"frame": {"x":563,"y":41,"w":56,"h":34},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":56,"h":34},
+	"sourceSize": {"w":62,"h":40}
+},
+{
+	"filename": "button_number.png",
+	"frame": {"x":601,"y":79,"w":56,"h":24},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":56,"h":24},
+	"sourceSize": {"w":62,"h":30}
+},
+{
+	"filename": "button_number_HL.png",
+	"frame": {"x":789,"y":41,"w":56,"h":24},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":56,"h":24},
+	"sourceSize": {"w":62,"h":30}
+},
+{
+	"filename": "button_shift.png",
+	"frame": {"x":395,"y":79,"w":80,"h":34},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":80,"h":34},
+	"sourceSize": {"w":86,"h":40}
+},
+{
+	"filename": "button_shift_HL.png",
+	"frame": {"x":395,"y":41,"w":80,"h":34},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":80,"h":34},
+	"sourceSize": {"w":86,"h":40}
+},
+{
+	"filename": "button_shift_caps.png",
+	"frame": {"x":311,"y":79,"w":80,"h":34},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":80,"h":34},
+	"sourceSize": {"w":86,"h":40}
+},
+{
+	"filename": "button_shift_caps_HL.png",
+	"frame": {"x":311,"y":41,"w":80,"h":34},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":80,"h":34},
+	"sourceSize": {"w":86,"h":40}
+},
+{
+	"filename": "button_shift_caps_hold.png",
+	"frame": {"x":705,"y":79,"w":80,"h":34},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":80,"h":34},
+	"sourceSize": {"w":86,"h":40}
+},
+{
+	"filename": "button_shift_caps_hold_HL.png",
+	"frame": {"x":705,"y":41,"w":80,"h":34},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":80,"h":34},
+	"sourceSize": {"w":86,"h":40}
+},
+{
+	"filename": "button_space.png",
+	"frame": {"x":335,"y":3,"w":328,"h":34},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":328,"h":34},
+	"sourceSize": {"w":334,"h":40}
+},
+{
+	"filename": "button_space_4_3.png",
+	"frame": {"x":3,"y":79,"w":304,"h":34},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":304,"h":34},
+	"sourceSize": {"w":310,"h":40}
+},
+{
+	"filename": "button_space_4_3_HL.png",
+	"frame": {"x":3,"y":41,"w":304,"h":34},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":304,"h":34},
+	"sourceSize": {"w":310,"h":40}
+},
+{
+	"filename": "button_space_HL.png",
+	"frame": {"x":3,"y":3,"w":328,"h":34},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":3,"w":328,"h":34},
+	"sourceSize": {"w":334,"h":40}
+},
+{
+	"filename": "keyboard_bg_shadow.png",
+	"frame": {"x":799,"y":3,"w":1,"h":7},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1,"h":7},
+	"sourceSize": {"w":1,"h":7}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "mobile_keyboard.png",
+	"format": "RGBA8888",
+	"size": {"w":816,"h":116},
+	"scale": "0.5",
+	"smartupdate": "$TexturePacker:SmartUpdate:9430a0ddfa08226040ad8ea6e935424a:009d18fcf16f86bf1212bf14330e43c3:26f79ba5c34718cc8164c53d1e2a497b$"
+}
+}

@@ -1,0 +1,22 @@
+#R17
+Whoa, didn't expect to find another
+switcher here!
+
+I'm Rayna, and you are...?
+#L01
+Me? I'm... I...
+#R17
+Did you create this level?
+#L01
+Level...? I don't understand...
+#R17
+Ah, it seems you haven't awoken yet.
+Sorry, I don't have time to explain.
+Got to run, hope to see you 
+again soon!
+#L01
+Wait...! Who are you?
+What do you mean?
+#L01
+...I stopped running.
+Guess I should run too...

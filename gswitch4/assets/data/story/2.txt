@@ -1,0 +1,25 @@
+#R03
+Hello.
+I am lost.
+Can you help?
+#L01
+Uhm... Sorry, but I'm pretty
+lost myself.
+#R03
+Oh. That is most unfortunate.
+Bzzzzzt-bzzt...
+#L01
+Who are you?
+#R03
+I am a ServiceBot, model ZAAK-1006.
+I do maintenance repairs.
+#L01
+OK...
+I think I'll just call you Zack.
+#R03
+That is fine, everyone else does.
+
+I must go. I need to find my friend.
+Farewell. Bzzt-bzzzzzt...
+#L01
+Bye.

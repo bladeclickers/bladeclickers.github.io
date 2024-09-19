@@ -1,0 +1,21 @@
+#R06
+Hello.
+Have you seen a green robot?
+I must find him.
+#L01
+I passed by him a little while ago.
+He was looking for you.
+#R06
+Ah, I must hurry then.
+ZAAK-1006 keeps getting lost.
+It's annoying.
+Bzzzzzt-bzzt...
+#L01
+Good luck!
+#R06
+Thank you.
+Please, don't tell the voice
+you've seen us.
+We're not supposed to be here.
+#L01
+!!!

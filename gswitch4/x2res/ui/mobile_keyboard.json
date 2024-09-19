@@ -1,0 +1,164 @@
+{"frames": [
+
+{
+	"filename": "button_backspace.png",
+	"frame": {"x":147,"y":1271,"w":160,"h":68},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":5,"w":160,"h":68},
+	"sourceSize": {"w":172,"h":80}
+},
+{
+	"filename": "button_backspace_HL.png",
+	"frame": {"x":75,"y":1127,"w":160,"h":68},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":5,"w":160,"h":68},
+	"sourceSize": {"w":172,"h":80}
+},
+{
+	"filename": "button_enter.png",
+	"frame": {"x":75,"y":615,"w":180,"h":68},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":5,"w":180,"h":68},
+	"sourceSize": {"w":192,"h":80}
+},
+{
+	"filename": "button_enter_HL.png",
+	"frame": {"x":3,"y":1323,"w":180,"h":68},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":5,"w":180,"h":68},
+	"sourceSize": {"w":192,"h":80}
+},
+{
+	"filename": "button_normal.png",
+	"frame": {"x":75,"y":1407,"w":112,"h":68},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":5,"w":112,"h":68},
+	"sourceSize": {"w":124,"h":80}
+},
+{
+	"filename": "button_normal_HL.png",
+	"frame": {"x":75,"y":1291,"w":112,"h":68},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":5,"w":112,"h":68},
+	"sourceSize": {"w":124,"h":80}
+},
+{
+	"filename": "button_number.png",
+	"frame": {"x":147,"y":1435,"w":112,"h":48},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":5,"w":112,"h":48},
+	"sourceSize": {"w":124,"h":60}
+},
+{
+	"filename": "button_number_HL.png",
+	"frame": {"x":3,"y":1523,"w":112,"h":48},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":5,"w":112,"h":48},
+	"sourceSize": {"w":124,"h":60}
+},
+{
+	"filename": "button_shift.png",
+	"frame": {"x":147,"y":1107,"w":160,"h":68},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":5,"w":160,"h":68},
+	"sourceSize": {"w":172,"h":80}
+},
+{
+	"filename": "button_shift_HL.png",
+	"frame": {"x":75,"y":963,"w":160,"h":68},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":5,"w":160,"h":68},
+	"sourceSize": {"w":172,"h":80}
+},
+{
+	"filename": "button_shift_caps.png",
+	"frame": {"x":147,"y":943,"w":160,"h":68},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":5,"w":160,"h":68},
+	"sourceSize": {"w":172,"h":80}
+},
+{
+	"filename": "button_shift_caps_HL.png",
+	"frame": {"x":75,"y":799,"w":160,"h":68},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":5,"w":160,"h":68},
+	"sourceSize": {"w":172,"h":80}
+},
+{
+	"filename": "button_shift_caps_hold.png",
+	"frame": {"x":147,"y":779,"w":160,"h":68},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":5,"w":160,"h":68},
+	"sourceSize": {"w":172,"h":80}
+},
+{
+	"filename": "button_shift_caps_hold_HL.png",
+	"frame": {"x":147,"y":615,"w":160,"h":68},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":5,"w":160,"h":68},
+	"sourceSize": {"w":172,"h":80}
+},
+{
+	"filename": "button_space.png",
+	"frame": {"x":3,"y":663,"w":656,"h":68},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":5,"w":656,"h":68},
+	"sourceSize": {"w":668,"h":80}
+},
+{
+	"filename": "button_space_4_3.png",
+	"frame": {"x":147,"y":3,"w":608,"h":68},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":5,"w":608,"h":68},
+	"sourceSize": {"w":620,"h":80}
+},
+{
+	"filename": "button_space_4_3_HL.png",
+	"frame": {"x":75,"y":3,"w":608,"h":68},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":5,"w":608,"h":68},
+	"sourceSize": {"w":620,"h":80}
+},
+{
+	"filename": "button_space_HL.png",
+	"frame": {"x":3,"y":3,"w":656,"h":68},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":5,"w":656,"h":68},
+	"sourceSize": {"w":668,"h":80}
+},
+{
+	"filename": "keyboard_bg_shadow.png",
+	"frame": {"x":3,"y":1507,"w":2,"h":14},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":2,"h":14},
+	"sourceSize": {"w":2,"h":14}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker ",
+	"version": "1.0",
+	"image": "mobile_keyboard@2.png",
+	"format": "RGBA8888",
+	"size": {"w":218,"h":1574},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:9430a0ddfa08226040ad8ea6e935424a:009d18fcf16f86bf1212bf14330e43c3:26f79ba5c34718cc8164c53d1e2a497b$"
+}
+}

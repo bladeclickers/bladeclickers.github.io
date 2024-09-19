@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<font>
+  <info face="Oxanium Medium" size="30" bold="0" italic="0" charset="ANSI" unicode="0" stretchH="100" smooth="0" aa="4" padding="0,0,0,1" spacing="1,1" outline="0"/>
+  <common lineHeight="30" base="24" scaleW="120" scaleH="32" pages="1" packed="0" alphaChnl="0" redChnl="4" greenChnl="4" blueChnl="4"/>
+  <pages>
+    <page id="0" file="rank_superscripts_@2_0.png" />
+  </pages>
+  <chars count="7">
+    <char id="32" x="84" y="0" width="6" height="30" xoffset="-1" yoffset="0" xadvance="5" page="0" chnl="15" />
+    <char id="100" x="0" y="0" width="15" height="30" xoffset="-1" yoffset="0" xadvance="14" page="0" chnl="15" />
+    <char id="104" x="16" y="0" width="15" height="30" xoffset="-1" yoffset="0" xadvance="14" page="0" chnl="15" />
+    <char id="110" x="32" y="0" width="15" height="30" xoffset="-1" yoffset="0" xadvance="14" page="0" chnl="15" />
+    <char id="114" x="62" y="0" width="10" height="30" xoffset="-1" yoffset="0" xadvance="9" page="0" chnl="15" />
+    <char id="115" x="48" y="0" width="13" height="30" xoffset="-1" yoffset="0" xadvance="12" page="0" chnl="15" />
+    <char id="116" x="73" y="0" width="10" height="30" xoffset="-1" yoffset="0" xadvance="9" page="0" chnl="15" />
+  </chars>
+</font>
