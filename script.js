@@ -2,7 +2,6 @@ document.getElementById('updateTitleButton').addEventListener('click', function(
     const title = document.getElementById('titleInput').value;
     document.title = title;
     localStorage.setItem('tabTitle', title);
-    alert(`Tab title updated to: ${title}`);
 });
 
 document.getElementById('iconUpload').addEventListener('change', function(event) {
