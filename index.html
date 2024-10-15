@@ -5,6 +5,7 @@
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <title>Schoolbox</title>
       <meta name="description" content="">
+      <link id="favicon" rel="icon" href="default-icon.png" type="image/png">
       <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <style>
@@ -55,6 +56,16 @@
     </style>
     <body>
       <h1>bladeclickers.github.io</h1>
+        
+      <input type="text" id="titleInput" placeholder="Tab title" />
+
+      <button id="updateTitleButton">Update</button>
+
+      <div class="icon-uploader">
+        <input type="file" id="iconUpload" accept="image/*" />
+        <img id="iconPreview" src="" alt="Icon Preview" />
+      </div>
+        
       <div class="button-container">
         <a class="button-link" href="https://bladeclickers.github.io/yohoho/yohoho.html">
           <img class="sigma" src="/yohoho/img/banner1024x512.jpg">
@@ -126,4 +137,5 @@
         </a>
       </div>
     </body>
+    <script src="script.js"></script>
 </html>
