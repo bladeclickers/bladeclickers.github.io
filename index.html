@@ -118,8 +118,7 @@
 
         // Click to open fullscreen iframe via Vercel proxy
         link.addEventListener('click', () => {
-          document.body.innerHTML = '';
-
+        
           const backButton = document.createElement('button');
           backButton.id = 'backButton';
           backButton.textContent = 'Back';
@@ -130,7 +129,8 @@
           const iframe = document.createElement('iframe');
           iframe.className = 'game-iframe';
           iframe.src = `https://website-backend-olive.vercel.app/api/proxy?path=${game.name}/index.html`;
-
+          
+          document.body.innerHTML = '';
           document.body.appendChild(backButton);
           document.body.appendChild(iframe);
         });
