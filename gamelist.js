@@ -1,32 +1,32 @@
 const games = [
   //{ name: "1v1.lol", NAME MATCHES HTML/PNG    formatted_Name: "1v1.lol", CUSTOM NAME THAT READABLE IN GAME LIST    fileType: "html" could be html or flash/swf if missing defaults to html, category: "none",             date: "7-12-2023" ,  DAY MONTH YEAR               release_Date: "25-12-2024" }, DAY MONTH YEAR can be "25-12-2024" or 2024
   {
-    name: "YoHoHo.io",
-    formatted_Name: "yohoho",
-    file: "yohoho.html",
+    name: "yohoho",
+    formatted_Name: "YoHoHo.io",
+    file: "index.html",
     image: "img/banner1024x512.jpg"
   },
   {
-    name: "Gun Mayhem 2",
-    formatted_Name: "gunmayhem2",
-    file: "gunmayhem2.html",
+    name: "gunmayhem2",
+    formatted_Name: "Gun Mayhem 2",
+    file: "index.html",
     image: "gm.jpg"
   },
   {
-    name: "Funny Shooter 2",
-    formatted_Name: "funnyshooter2",
-    file: "funnyshooter2.html",
+    name: "funnyshooter2",
+    formatted_Name: "Funny Shooter 2",
+    file: "index.html",
     image: "screenshots/1.jpg"
   },
   {
-    name: "Nut Simulator",
-    formatted_Name: "nutsimulator",
-    file: "nutsimulator.html",
+    name: "nutsimulator",
+    formatted_Name: "Nut Simulator",
+    file: "index.html",
     image: "images/icon.png"
   },
   {
-    name: "10 Minutes Till Dawn",
-    formatted_Name: "10minutestilldawn",
+    name: "10minutestilldawn",
+    formatted_Name: "10 Minutes Till Dawn",
     file: "index.html",
     image: "logo.jpg"
   },
