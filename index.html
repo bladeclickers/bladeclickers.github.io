@@ -17,7 +17,6 @@
       align-items: center;
       padding: 20px;
       margin: 0;
-      overflow: hidden;
     }
     .button-link {
       display: block;
@@ -129,26 +128,33 @@
         link.appendChild(title);
 
         // Click to open fullscreen iframe
-        link.addEventListener('click', async () => {   // async here
+        link.addEventListener('click', async () => {
           document.body.innerHTML = '';
-
+        
           const backButton = document.createElement('button');
           backButton.id = 'backButton';
           backButton.textContent = 'Back';
           backButton.addEventListener('click', () => {
             location.reload();
           });
-
-          // await so we don’t get [object Promise]
-          const thing = await getHTMLFromURL(
+        
+          // Fetch raw HTML
+          let html = await getHTMLFromURL(
             `https://raw.githubusercontent.com/CoolUBG/coolubg-list/refs/heads/main/${game.name}/index.html`
           );
-
-          if (thing) {
+        
+          if (html) {
+            // Fix relative paths to absolute raw.githubusercontent URLs
+            const baseURL = `https://raw.githubusercontent.com/CoolUBG/coolubg-list/refs/heads/main/${game.name}/`;
+        
+            html = html.replace(/(src|href)="(?!https?:\/\/)([^"]+)"/g, (match, attr, path) => {
+              return `${attr}="${baseURL}${path}"`;
+            });
+        
             const iframe = document.createElement('iframe');
             iframe.className = 'game-iframe';
-            iframe.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(thing);
-
+            iframe.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
+        
             document.body.appendChild(backButton);
             document.body.appendChild(iframe);
           } else {
