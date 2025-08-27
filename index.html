@@ -102,7 +102,7 @@
         }
         return await response.text();
       } catch (error) {
-        console.error("Error fetching content:", error);
+        console.error("Error fetching content: ", error);
         return null;
       }
     }
@@ -128,7 +128,6 @@
         link.appendChild(img);
         link.appendChild(title);
 
-        // Click to open fullscreen iframe
         link.addEventListener('click', async () => {
           document.body.innerHTML = '';
 
