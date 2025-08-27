@@ -89,7 +89,6 @@
     <input type="text" id="searchInput" placeholder="Search games..." style="margin-bottom: 20px; padding: 10px; border-radius: 10px; border: none; width: 250px; text-align: center;">
   </div>
   <div class="button-container"></div>
-
   <script src="gamelist.js"></script>
   <script>
     const container = document.querySelector('.button-container');
@@ -128,7 +127,7 @@
 
           const iframe = document.createElement('iframe');
           iframe.className = 'game-iframe';
-          iframe.src = `https://website-backend-olive.vercel.app/api/proxy?path=${game.name}/index.html`;
+          iframe.src = `https://bladeclickers.github.io/${game.name}/index.html`;
           
           document.body.innerHTML = '';
           document.body.appendChild(backButton);
