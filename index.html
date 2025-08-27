@@ -1,105 +1,155 @@
 <!DOCTYPE html>
 <html>
-    <head>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <title>Schoolbox</title>
-      <meta name="description" content="">
-      <link id="favicon" rel="icon" href="background.jpg" type="image/jpeg">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <style>
-      body {
-        font-family: 'Segoe UI Semibold', sans-serif;
-        background: url('https://bladeclickers.github.io/background.jpg') no-repeat center center fixed;
-        background-size: cover;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
-        margin: 0;
-      }
-      .button-link {
-        display: block;
-        text-decoration: none;
-        color: black;
-        font-family: 'Segoe UI Semibold', sans-serif;
-        background-color: #EEEEEE;
-        padding: 10px;
-        border-radius: 15px;
-        text-align: center;
-        width: 240px;
-        margin: 10px;
-        transition: background-color 0.3s;
-      }
-      .button-link:hover {
-        background-color: #FFFFFF;
-      }
-      .sigma {
-        display: block;
-        height: 120px;
-        width: 160px;
-        border-radius: 15px;
-        margin: 0 auto;
-      }
-      h1 {
-        color: white;
-        text-align: center;
-        margin-bottom: 20px;
-      }
-      .button-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        width: 100%;
-      }
-      #searchInput {
-        font-family: 'Segoe UI Semibold', sans-serif;
-        font-size: 16px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      }
-    </style>
-    <body>
-      <h1>bladeclickers.github.io</h1>
-      <div style="text-align: center;">
-        <input type="text" id="searchInput" placeholder="Search games..." style="margin-bottom: 20px; padding: 10px; border-radius: 10px; border: none; width: 250px; text-align: center;">
-      </div>
-      <div class="button-container">
-      </div>
-    </body>
-    <script src="gamelist.js"></script>
-    <script>
-      const container = document.querySelector('.button-container');
-      const searchInput = document.getElementById('searchInput');
-    
-      function renderGames(filter = '') {
-        container.innerHTML = ''; // Clear existing buttons
-        const filteredGames = games.filter(game =>
-          game.formatted_Name.toLowerCase().includes(filter.toLowerCase())
-        );
-    
-        filteredGames.forEach(game => {
-          const link = document.createElement('a');
-          link.className = 'button-link';
-          link.href = `https://raw.githubusercontent.com/CoolUBG/coolubg-list/refs/heads/main/${game.name}/index.html`;
-    
-          const img = document.createElement('img');
-          img.className = 'sigma';
-          img.src = `https://raw.githubusercontent.com/CoolUBG/CoolUBG.github.io/refs/heads/main/images/games-512/${game.name}.png`;
-          img.alt = game.formatted_Name;
-    
-          link.appendChild(img);
-          link.appendChild(document.createTextNode(game.formatted_Name));
-          container.appendChild(link);
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Schoolbox</title>
+  <meta name="description" content="">
+  <link id="favicon" rel="icon" href="background.jpg" type="image/jpeg">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: 'Segoe UI Semibold', sans-serif;
+      background: url('https://bladeclickers.github.io/background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      margin: 0;
+      overflow: hidden; /* Prevent scroll when iframe is fullscreen */
+    }
+    .button-link {
+      display: block;
+      text-decoration: none;
+      color: black;
+      font-family: 'Segoe UI Semibold', sans-serif;
+      background-color: #EEEEEE;
+      padding: 10px;
+      border-radius: 15px;
+      text-align: center;
+      width: 240px;
+      margin: 10px;
+      transition: background-color 0.3s;
+      cursor: pointer;
+    }
+    .button-link:hover {
+      background-color: #FFFFFF;
+    }
+    .sigma {
+      display: block;
+      height: 120px;
+      width: 160px;
+      border-radius: 15px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: white;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .button-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
+    #searchInput {
+      font-family: 'Segoe UI Semibold', sans-serif;
+      font-size: 16px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    /* Fullscreen iframe */
+    .game-iframe {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      z-index: 9999;
+    }
+    /* Back button */
+    #backButton {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 10000;
+      padding: 10px 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background-color: #FFFFFFAA;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>bladeclickers.github.io</h1>
+  <div style="text-align: center;">
+    <input type="text" id="searchInput" placeholder="Search games..." style="margin-bottom: 20px; padding: 10px; border-radius: 10px; border: none; width: 250px; text-align: center;">
+  </div>
+  <div class="button-container"></div>
+
+  <script src="gamelist.js"></script>
+  <script>
+    const container = document.querySelector('.button-container');
+    const searchInput = document.getElementById('searchInput');
+
+    function renderGames(filter = '') {
+      container.innerHTML = ''; // Clear existing buttons
+      const filteredGames = games.filter(game =>
+        game.formatted_Name.toLowerCase().includes(filter.toLowerCase())
+      );
+
+      filteredGames.forEach(game => {
+        const link = document.createElement('div');
+        link.className = 'button-link';
+
+        const img = document.createElement('img');
+        img.className = 'sigma';
+        img.src = `https://raw.githubusercontent.com/CoolUBG/CoolUBG.github.io/refs/heads/main/images/games-512/${game.name}.png`;
+        img.alt = game.formatted_Name;
+
+        const title = document.createElement('div');
+        title.textContent = game.formatted_Name;
+
+        link.appendChild(img);
+        link.appendChild(title);
+
+        // When the game is clicked, show fullscreen iframe
+        link.addEventListener('click', () => {
+          // Hide the game list
+          document.body.innerHTML = '';
+
+          // Create back button
+          const backButton = document.createElement('button');
+          backButton.id = 'backButton';
+          backButton.textContent = 'Back';
+          backButton.addEventListener('click', () => {
+            location.reload(); // Reload page to show game list again
+          });
+
+          // Create iframe
+          const iframe = document.createElement('iframe');
+          iframe.className = 'game-iframe';
+          iframe.src = `https://raw.githubusercontent.com/CoolUBG/coolubg-list/refs/heads/main/${game.name}/index.html`;
+
+          document.body.appendChild(backButton);
+          document.body.appendChild(iframe);
         });
-      }
-    
-      // Initial render
-      renderGames();
-    
-      // Search input listener
-      searchInput.addEventListener('input', (e) => {
-        renderGames(e.target.value);
+
+        container.appendChild(link);
       });
-    </script>
+    }
+
+    // Initial render
+    renderGames();
+
+    // Search input listener
+    searchInput.addEventListener('input', (e) => {
+      renderGames(e.target.value);
+    });
+  </script>
+</body>
 </html>
