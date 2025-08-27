@@ -81,11 +81,11 @@
         filteredGames.forEach(game => {
           const link = document.createElement('a');
           link.className = 'button-link';
-          link.href = `https://bladeclickers.github.io/${game.formatted_Name}/${game.file}`;
+          link.href = `https://raw.githubusercontent.com/CoolUBG/coolubg-list/refs/heads/main/${game.formatted_Name}/index.html`;
     
           const img = document.createElement('img');
           img.className = 'sigma';
-          img.src = `/${game.formatted_Name}/${game.image}`;
+          img.src = `https://raw.githubusercontent.com/CoolUBG/CoolUBG.github.io/refs/heads/main/images/games-512/${game.formatted_Name}.png`;
           img.alt = game.name;
     
           link.appendChild(img);
