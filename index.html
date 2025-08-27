@@ -17,6 +17,8 @@
       align-items: center;
       padding: 20px;
       margin: 0;
+      /* allow scrolling */
+      overflow: auto;
     }
     .button-link {
       display: block;
@@ -93,19 +95,6 @@
     const container = document.querySelector('.button-container');
     const searchInput = document.getElementById('searchInput');
 
-    async function getHTMLFromURL(url) {
-      try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return await response.text();
-      } catch (error) {
-        console.error("Error fetching content: ", error);
-        return null;
-      }
-    }
-
     function renderGames(filter = '') {
       container.innerHTML = '';
       const filteredGames = games.filter(game =>
@@ -127,40 +116,23 @@
         link.appendChild(img);
         link.appendChild(title);
 
-        // Click to open fullscreen iframe
-        link.addEventListener('click', async () => {
+        // Click to open fullscreen iframe via Vercel proxy
+        link.addEventListener('click', () => {
           document.body.innerHTML = '';
-        
+
           const backButton = document.createElement('button');
           backButton.id = 'backButton';
           backButton.textContent = 'Back';
           backButton.addEventListener('click', () => {
             location.reload();
           });
-        
-          // Fetch raw HTML
-          let html = await getHTMLFromURL(
-            `https://raw.githubusercontent.com/CoolUBG/coolubg-list/refs/heads/main/${game.name}/index.html`
-          );
-        
-          if (html) {
-            // Fix relative paths to absolute raw.githubusercontent URLs
-            const baseURL = `https://raw.githubusercontent.com/CoolUBG/coolubg-list/refs/heads/main/${game.name}/`;
-        
-            html = html.replace(/(src|href)="(?!https?:\/\/)([^"]+)"/g, (match, attr, path) => {
-              return `${attr}="${baseURL}${path}"`;
-            });
-        
-            const iframe = document.createElement('iframe');
-            iframe.className = 'game-iframe';
-            iframe.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
-        
-            document.body.appendChild(backButton);
-            document.body.appendChild(iframe);
-          } else {
-            alert("Failed to load game.");
-            location.reload();
-          }
+
+          const iframe = document.createElement('iframe');
+          iframe.className = 'game-iframe';
+          iframe.src = `https://website-backend-olive.vercel.app/api/proxy?path=${game.name}/index.html`;
+
+          document.body.appendChild(backButton);
+          document.body.appendChild(iframe);
         });
 
         container.appendChild(link);
