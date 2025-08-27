@@ -1,155 +1,174 @@
 <!DOCTYPE html>
 <html>
-    <head>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <title>Schoolbox</title>
-      <meta name="description" content="">
-      <link id="favicon" rel="icon" href="background.jpg" type="image/jpeg">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <style>
-      body {
-        font-family: 'Segoe UI Semibold', sans-serif;
-        background: url('https://bladeclickers.github.io/background.jpg') no-repeat center center fixed;
-        background-size: cover;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
-        margin: 0;
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Schoolbox</title>
+  <meta name="description" content="">
+  <link id="favicon" rel="icon" href="background.jpg" type="image/jpeg">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: 'Segoe UI Semibold', sans-serif;
+      background: url('https://bladeclickers.github.io/background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      margin: 0;
+      overflow: hidden;
+    }
+    .button-link {
+      display: block;
+      text-decoration: none;
+      color: black;
+      font-family: 'Segoe UI Semibold', sans-serif;
+      background-color: #EEEEEE;
+      padding: 10px;
+      border-radius: 15px;
+      text-align: center;
+      width: 240px;
+      margin: 10px;
+      transition: background-color 0.3s;
+      cursor: pointer;
+    }
+    .button-link:hover {
+      background-color: #FFFFFF;
+    }
+    .sigma {
+      display: block;
+      height: 120px;
+      width: 160px;
+      border-radius: 15px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: white;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .button-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
+    #searchInput {
+      font-family: 'Segoe UI Semibold', sans-serif;
+      font-size: 16px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .game-iframe {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      z-index: 9999;
+    }
+    #backButton {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 10000;
+      padding: 10px 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background-color: #FFFFFFAA;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>bladeclickers.github.io</h1>
+  <div style="text-align: center;">
+    <input type="text" id="searchInput" placeholder="Search games..." style="margin-bottom: 20px; padding: 10px; border-radius: 10px; border: none; width: 250px; text-align: center;">
+  </div>
+  <div class="button-container"></div>
+
+  <script src="gamelist.js"></script>
+  <script>
+    const container = document.querySelector('.button-container');
+    const searchInput = document.getElementById('searchInput');
+
+    async function getPlaintextFromURL(url) {
+      try {
+        const response = await fetch(url);
+    
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+    
+        const htmlContent = await response.text();
+    
+        // Create a temporary DOM element to parse the HTML and extract text
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = htmlContent;
+    
+        // Use textContent to get the plain text, stripping out all HTML tags
+        const plainText = tempDiv.textContent || tempDiv.innerText; // textContent is preferred
+    
+        return plainText;
+    
+      } catch (error) {
+        console.error("Error fetching or processing content:", error);
+        return null; // Or handle the error as appropriate
       }
-      .button-link {
-        display: block;
-        text-decoration: none;
-        color: black;
-        font-family: 'Segoe UI Semibold', sans-serif;
-        background-color: #EEEEEE;
-        padding: 10px;
-        border-radius: 15px;
-        text-align: center;
-        width: 240px;
-        margin: 10px;
-        transition: background-color 0.3s;
-      }
-      .button-link:hover {
-        background-color: #FFFFFF;
-      }
-      .sigma {
-        display: block;
-        height: 120px;
-        width: 160px;
-        border-radius: 15px;
-        margin: 0 auto;
-      }
-      h1 {
-        color: white;
-        text-align: center;
-        margin-bottom: 20px;
-      }
-      .button-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        width: 100%;
-      }
-    </style>
-    <body>
-      <h1>bladeclickers.github.io</h1>
-      <div class="button-container">
-        <a class="button-link" href="https://bladeclickers.github.io/yohoho/yohoho.html">
-          <img class="sigma" src="/yohoho/img/banner1024x512.jpg">
-          YoHoHo.io
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/drivemad/drivemad.html">
-          <img class="sigma" src="/drivemad/webapp/cover.jpg">
-          Drive Mad
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/slope/slope.html">
-          <img class="sigma" src="/slope/slope4.jpeg">
-          Slope
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/gunmayhem2/gunmayhem2.html">
-          <img class="sigma" src="/gunmayhem2/gm.jpg">
-          Gun Mayhem 2
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/cookieclicker/cookieclicker.html">
-          <img class="sigma" src="/cookieclicker/cc.jpg">
-          Cookie Clicker
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/funnyshooter2/funnyshooter2.html">
-          <img class="sigma" src="/funnyshooter2/screenshots/1.jpg">
-          Funny Shooter 2
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/basketrandom/basketrandom.html">
-          <img class="sigma" src="/basketrandom/download.jpg">
-          Basket Random
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/nutsimulator/nutsimulator.html">
-          <img class="sigma" src="/nutsimulator/images/icon.png">
-          Nut Simulator
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/10minutestilldawn/index.html">
-          <img class="sigma" src="/10minutestilldawn/logo.jpg">
-          10 Minutes Till Dawn
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/vex8/index.html">
-          <img class="sigma" src="/vex8/logo.jpg">
-          Vex 8
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/amazingstrangeropepolice/index.html">
-          <img class="sigma" src="/amazingstrangeropepolice/logo.jpg">
-          Amazing Strange Rope Police
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/stickmanboost/index.html">
-          <img class="sigma" src="/stickmanboost/logo.jpg">
-          Stickman Boost
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/stickmanboost2/index.html">
-          <img class="sigma" src="/stickmanboost2/logo.jpg">
-          Stickman Boost 2
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/stickarchersbattle/index.html">
-          <img class="sigma" src="/stickarchersbattle/logo.jpg">
-          Stick Archers Battle
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/subwaysurfers/index.html">
-          <img class="sigma" src="/subwaysurfers/logo.jpg">
-          Subway Surfers
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/wordleplus/index.html">
-          <img class="sigma" src="/wordleplus/logo.jpg">
-          Wordle Plus
-        </a>
-         <a class="button-link" href="https://bladeclickers.github.io/cpstest/cpstest.html">
-          <img class="sigma" src="/cpstest/logo.jpg">
-          CPS Test
-        </a>
-          <a class="button-link" href="https://bladeclickers.github.io/chess/chess.html">
-          <img class="sigma" src="/chess/chess.png">
-          Chess
-        </a>
-          <a class="button-link" href="https://bladeclickers.github.io/escaperoadcity2/escaperoadcity2.html">
-          <img class="sigma" src="/escaperoadcity2/escaperoadcity2.jpg">
-          Escape Road City 2
-        </a>
-          <a class="button-link" href="https://bladeclickers.github.io/battlekarts/battlekarts.html">
-          <img class="sigma" src="/battlekarts/battlekarts.png">
-          Battle Karts
-        </a>
-          </a>
-          <a class="button-link" href="https://bladeclickers.github.io/getawayshootout/getaway-shootout.html">
-          <img class="sigma" src="/getawayshootout/image.jpg">
-          Getaway Shootout
-        </a>
-          <a class="button-link" href="https://bladeclickers.github.io/polytrack/index.html">
-          <img class="sigma" src="/polytrack/images.jpg">
-          PolyTrack
-        </a>
-          <a class="button-link" href="https://bladeclickers.github.io/paper.io-2/paperio2.html">
-          <img class="sigma" src="/paper.io-2/images.png">
-          Paper.io 2
-        </a>
-      </div>
-    </body>
-</html>
+    }
+
+    function renderGames(filter = '') {
+      container.innerHTML = '';
+      const filteredGames = games.filter(game =>
+        game.formatted_Name.toLowerCase().includes(filter.toLowerCase())
+      );
+
+      filteredGames.forEach(game => {
+        const link = document.createElement('div');
+        link.className = 'button-link';
+
+        const img = document.createElement('img');
+        img.className = 'sigma';
+        img.src = `https://raw.githubusercontent.com/CoolUBG/CoolUBG.github.io/refs/heads/main/images/games-256/${game.name}.png`;
+        img.alt = game.formatted_Name;
+
+        const title = document.createElement('div');
+        title.textContent = game.formatted_Name;
+
+        link.appendChild(img);
+        link.appendChild(title);
+
+        // Click to open fullscreen iframe
+        link.addEventListener('click', () => {
+          document.body.innerHTML = '';
+
+          const backButton = document.createElement('button');
+          backButton.id = 'backButton';
+          backButton.textContent = 'Back';
+          backButton.addEventListener('click', () => {
+            location.reload();
+          });
+
+          const thing = getPlaintextFromURL(`https://raw.githubusercontent.com/CoolUBG/coolubg-list/refs/heads/main/${game.name}/index.html`);
+
+          const iframe = document.createElement('iframe');
+          iframe.className = 'game-iframe';
+          iframe.src = 'data:text/html;charset=utf-8,' + escape(thing);
+
+          document.body.appendChild(backButton);
+          document.body.appendChild(iframe);
+        });
+
+        container.appendChild(link);
+      });
+    }
+
+    renderGames();
+
+    searchInput.addEventListener('input', (e) => {
+      renderGames(e.target.value);
+    });
+  </script>
+</body>
