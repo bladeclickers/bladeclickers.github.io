@@ -58,7 +58,7 @@ const games = [
     name: "Vex 8",
     formatted_Name: "vex8",
     image: "logo.jpg"
-  }
+  },
   {
     name: "2048",
     formatted_Name: "2048",
