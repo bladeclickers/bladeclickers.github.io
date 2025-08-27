@@ -75,18 +75,18 @@
       function renderGames(filter = '') {
         container.innerHTML = ''; // Clear existing buttons
         const filteredGames = games.filter(game =>
-          game.name.toLowerCase().includes(filter.toLowerCase())
+          game.formatted_Name.toLowerCase().includes(filter.toLowerCase())
         );
     
         filteredGames.forEach(game => {
           const link = document.createElement('a');
           link.className = 'button-link';
-          link.href = `https://raw.githubusercontent.com/CoolUBG/coolubg-list/refs/heads/main/${game.formatted_Name}/index.html`;
+          link.href = `https://raw.githubusercontent.com/CoolUBG/coolubg-list/refs/heads/main/${game.name}/index.html`;
     
           const img = document.createElement('img');
           img.className = 'sigma';
-          img.src = `https://raw.githubusercontent.com/CoolUBG/CoolUBG.github.io/refs/heads/main/images/games-512/${game.formatted_Name}.png`;
-          img.alt = game.name;
+          img.src = `https://raw.githubusercontent.com/CoolUBG/CoolUBG.github.io/refs/heads/main/images/games-512/${game.name}.png`;
+          img.alt = game.formatted_Name;
     
           link.appendChild(img);
           link.appendChild(document.createTextNode(game.title));
