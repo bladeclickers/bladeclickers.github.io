@@ -7,40 +7,16 @@ const games = [
     image: "img/banner1024x512.jpg"
   },
   {
-    name: "Drive Mad",
-    formatted_Name: "drivemad",
-    file: "drivemad.html",
-    image: "webapp/cover.jpg"
-  },
-  {
-    name: "Slope",
-    formatted_Name: "slope",
-    file: "slope.html",
-    image: "slope4.jpeg"
-  },
-  {
     name: "Gun Mayhem 2",
     formatted_Name: "gunmayhem2",
     file: "gunmayhem2.html",
     image: "gm.jpg"
   },
   {
-    name: "Cookie Clicker",
-    formatted_Name: "cookieclicker",
-    file: "cookieclicker.html",
-    image: "cc.jpg"
-  },
-  {
     name: "Funny Shooter 2",
     formatted_Name: "funnyshooter2",
     file: "funnyshooter2.html",
     image: "screenshots/1.jpg"
-  },
-  {
-    name: "Basket Random",
-    formatted_Name: "basketrandom",
-    file: "basketrandom.html",
-    image: "download.jpg"
   },
   {
     name: "Nut Simulator",
@@ -52,11 +28,6 @@ const games = [
     name: "10 Minutes Till Dawn",
     formatted_Name: "10minutestilldawn",
     file: "index.html",
-    image: "logo.jpg"
-  },
-  {
-    name: "Vex 8",
-    formatted_Name: "vex8",
     image: "logo.jpg"
   },
   {
