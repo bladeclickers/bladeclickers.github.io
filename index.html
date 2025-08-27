@@ -75,7 +75,7 @@
       function renderGames(filter = '') {
         container.innerHTML = ''; // Clear existing buttons
         const filteredGames = games.filter(game =>
-          game.title.toLowerCase().includes(filter.toLowerCase())
+          game.name.toLowerCase().includes(filter.toLowerCase())
         );
     
         filteredGames.forEach(game => {
