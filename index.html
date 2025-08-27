@@ -17,6 +17,7 @@
       align-items: center;
       padding: 20px;
       margin: 0;
+      overflow: hidden;
     }
     .button-link {
       display: block;
@@ -30,6 +31,7 @@
       width: 240px;
       margin: 10px;
       transition: background-color 0.3s;
+      cursor: pointer;
     }
     .button-link:hover {
       background-color: #FFFFFF;
@@ -57,6 +59,27 @@
       font-size: 16px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
+    .game-iframe {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      z-index: 9999;
+    }
+    #backButton {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 10000;
+      padding: 10px 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background-color: #FFFFFFAA;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -72,33 +95,51 @@
     const searchInput = document.getElementById('searchInput');
 
     function renderGames(filter = '') {
-      container.innerHTML = ''; // Clear existing buttons
+      container.innerHTML = '';
       const filteredGames = games.filter(game =>
         game.formatted_Name.toLowerCase().includes(filter.toLowerCase())
       );
 
       filteredGames.forEach(game => {
-        const link = document.createElement('a'); // Use <a> for clickable links
+        const link = document.createElement('div');
         link.className = 'button-link';
-        link.href = `https://raw.githubusercontent.com/CoolUBG/coolubg-list/refs/heads/main/${game.name}/index.html`;
-        link.target = '_blank'; // Open in new tab
 
         const img = document.createElement('img');
         img.className = 'sigma';
-        img.src = `https://raw.githubusercontent.com/CoolUBG/CoolUBG.github.io/refs/heads/main/images/games-512/${game.name}.png`;
+        img.src = `https://raw.githubusercontent.com/CoolUBG/CoolUBG.github.io/refs/heads/main/images/games-256/${game.name}.png`;
         img.alt = game.formatted_Name;
 
+        const title = document.createElement('div');
+        title.textContent = game.formatted_Name;
+
         link.appendChild(img);
-        link.appendChild(document.createTextNode(game.formatted_Name));
+        link.appendChild(title);
+
+        // Click to open fullscreen iframe
+        link.addEventListener('click', () => {
+          document.body.innerHTML = '';
+
+          const backButton = document.createElement('button');
+          backButton.id = 'backButton';
+          backButton.textContent = 'Back';
+          backButton.addEventListener('click', () => {
+            location.reload();
+          });
+
+          const iframe = document.createElement('iframe');
+          iframe.className = 'game-iframe';
+          iframe.src = `https://raw.githubusercontent.com/CoolUBG/coolubg-list/refs/heads/main/${game.name}/index.html`;
+
+          document.body.appendChild(backButton);
+          document.body.appendChild(iframe);
+        });
 
         container.appendChild(link);
       });
     }
 
-    // Initial render
     renderGames();
 
-    // Search input listener
     searchInput.addEventListener('input', (e) => {
       renderGames(e.target.value);
     });
