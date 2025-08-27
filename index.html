@@ -53,103 +53,53 @@
         justify-content: center;
         width: 100%;
       }
+      #searchInput {
+        font-family: 'Segoe UI Semibold', sans-serif;
+        font-size: 16px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      }
     </style>
     <body>
       <h1>bladeclickers.github.io</h1>
+      <div style="text-align: center;">
+        <input type="text" id="searchInput" placeholder="Search games..." style="margin-bottom: 20px; padding: 10px; border-radius: 10px; border: none; width: 250px; text-align: center;">
+      </div>
       <div class="button-container">
-        <a class="button-link" href="https://bladeclickers.github.io/yohoho/yohoho.html">
-          <img class="sigma" src="/yohoho/img/banner1024x512.jpg">
-          YoHoHo.io
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/drivemad/drivemad.html">
-          <img class="sigma" src="/drivemad/webapp/cover.jpg">
-          Drive Mad
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/slope/slope.html">
-          <img class="sigma" src="/slope/slope4.jpeg">
-          Slope
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/gunmayhem2/gunmayhem2.html">
-          <img class="sigma" src="/gunmayhem2/gm.jpg">
-          Gun Mayhem 2
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/cookieclicker/cookieclicker.html">
-          <img class="sigma" src="/cookieclicker/cc.jpg">
-          Cookie Clicker
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/funnyshooter2/funnyshooter2.html">
-          <img class="sigma" src="/funnyshooter2/screenshots/1.jpg">
-          Funny Shooter 2
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/basketrandom/basketrandom.html">
-          <img class="sigma" src="/basketrandom/download.jpg">
-          Basket Random
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/nutsimulator/nutsimulator.html">
-          <img class="sigma" src="/nutsimulator/images/icon.png">
-          Nut Simulator
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/10minutestilldawn/index.html">
-          <img class="sigma" src="/10minutestilldawn/logo.jpg">
-          10 Minutes Till Dawn
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/vex8/index.html">
-          <img class="sigma" src="/vex8/logo.jpg">
-          Vex 8
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/amazingstrangeropepolice/index.html">
-          <img class="sigma" src="/amazingstrangeropepolice/logo.jpg">
-          Amazing Strange Rope Police
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/stickmanboost/index.html">
-          <img class="sigma" src="/stickmanboost/logo.jpg">
-          Stickman Boost
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/stickmanboost2/index.html">
-          <img class="sigma" src="/stickmanboost2/logo.jpg">
-          Stickman Boost 2
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/stickarchersbattle/index.html">
-          <img class="sigma" src="/stickarchersbattle/logo.jpg">
-          Stick Archers Battle
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/subwaysurfers/index.html">
-          <img class="sigma" src="/subwaysurfers/logo.jpg">
-          Subway Surfers
-        </a>
-        <a class="button-link" href="https://bladeclickers.github.io/wordleplus/index.html">
-          <img class="sigma" src="/wordleplus/logo.jpg">
-          Wordle Plus
-        </a>
-         <a class="button-link" href="https://bladeclickers.github.io/cpstest/cpstest.html">
-          <img class="sigma" src="/cpstest/logo.jpg">
-          CPS Test
-        </a>
-          <a class="button-link" href="https://bladeclickers.github.io/chess/chess.html">
-          <img class="sigma" src="/chess/chess.png">
-          Chess
-        </a>
-          <a class="button-link" href="https://bladeclickers.github.io/escaperoadcity2/escaperoadcity2.html">
-          <img class="sigma" src="/escaperoadcity2/escaperoadcity2.jpg">
-          Escape Road City 2
-        </a>
-          <a class="button-link" href="https://bladeclickers.github.io/battlekarts/battlekarts.html">
-          <img class="sigma" src="/battlekarts/battlekarts.png">
-          Battle Karts
-        </a>
-          </a>
-          <a class="button-link" href="https://bladeclickers.github.io/getawayshootout/getaway-shootout.html">
-          <img class="sigma" src="/getawayshootout/image.jpg">
-          Getaway Shootout
-        </a>
-          <a class="button-link" href="https://bladeclickers.github.io/polytrack/index.html">
-          <img class="sigma" src="/polytrack/images.jpg">
-          PolyTrack
-        </a>
-          <a class="button-link" href="https://bladeclickers.github.io/paper.io-2/paperio2.html">
-          <img class="sigma" src="/paper.io-2/images.png">
-          Paper.io 2
-        </a>
       </div>
     </body>
+    <script src="gamelist.js"></script>
+    <script>
+      const container = document.querySelector('.button-container');
+      const searchInput = document.getElementById('searchInput');
+    
+      function renderGames(filter = '') {
+        container.innerHTML = ''; // Clear existing buttons
+        const filteredGames = games.filter(game =>
+          game.title.toLowerCase().includes(filter.toLowerCase())
+        );
+    
+        filteredGames.forEach(game => {
+          const link = document.createElement('a');
+          link.className = 'button-link';
+          link.href = `https://bladeclickers.github.io/${game.formatted_Name}/${game.file}`;
+    
+          const img = document.createElement('img');
+          img.className = 'sigma';
+          img.src = `/${game.formatted_Name}/${game.image}`;
+          img.alt = game.name;
+    
+          link.appendChild(img);
+          link.appendChild(document.createTextNode(game.title));
+          container.appendChild(link);
+        });
+      }
+    
+      // Initial render
+      renderGames();
+    
+      // Search input listener
+      searchInput.addEventListener('input', (e) => {
+        renderGames(e.target.value);
+      });
+    </script>
 </html>
