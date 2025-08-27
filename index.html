@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>bladeclickers</title>
+  <title>Schoolbox</title>
   <meta name="description" content="">
   <link id="favicon" rel="icon" href="background.jpg" type="image/jpeg">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -85,7 +85,7 @@
 <body>
   <h1>bladeclickers.github.io</h1>
   <div style="text-align: center;">
-    <input type="text" id="searchInput" placeholder="Search games.." style="margin-bottom: 20px; padding: 10px; border-radius: 10px; border: none; width: 250px; text-align: center;">
+    <input type="text" id="searchInput" placeholder="Search games..." style="margin-bottom: 20px; padding: 10px; border-radius: 10px; border: none; width: 250px; text-align: center;">
   </div>
   <div class="button-container"></div>
 
@@ -93,6 +93,19 @@
   <script>
     const container = document.querySelector('.button-container');
     const searchInput = document.getElementById('searchInput');
+
+    async function getHTMLFromURL(url) {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return await response.text();
+      } catch (error) {
+        console.error("Error fetching content:", error);
+        return null;
+      }
+    }
 
     function renderGames(filter = '') {
       container.innerHTML = '';
@@ -115,7 +128,8 @@
         link.appendChild(img);
         link.appendChild(title);
 
-        link.addEventListener('click', async () => {
+        // Click to open fullscreen iframe
+        link.addEventListener('click', async () => {   // async here
           document.body.innerHTML = '';
 
           const backButton = document.createElement('button');
@@ -125,18 +139,15 @@
             location.reload();
           });
 
-          const thing = //await getHTMLFromURL(
-            `https://raw.githubusercontent.com/CoolUBG/coolubg-list/refs/heads/main/${game.name}/index.html`;
-          //);
+          // await so we don’t get [object Promise]
+          const thing = await getHTMLFromURL(
+            `https://raw.githubusercontent.com/CoolUBG/coolubg-list/refs/heads/main/${game.name}/index.html`
+          );
 
           if (thing) {
             const iframe = document.createElement('iframe');
             iframe.className = 'game-iframe';
-
-            var idoc = iframe.contentWindow.document;
-            idoc.write(thing);
-            idoc.close();
-            //iframe.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(thing);
+            iframe.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(thing);
 
             document.body.appendChild(backButton);
             document.body.appendChild(iframe);
