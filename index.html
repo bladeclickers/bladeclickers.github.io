@@ -94,28 +94,16 @@
     const container = document.querySelector('.button-container');
     const searchInput = document.getElementById('searchInput');
 
-    async function getPlaintextFromURL(url) {
+    async function getHTMLFromURL(url) {
       try {
         const response = await fetch(url);
-    
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-    
-        const htmlContent = await response.text();
-    
-        // Create a temporary DOM element to parse the HTML and extract text
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = htmlContent;
-    
-        // Use textContent to get the plain text, stripping out all HTML tags
-        const plainText = tempDiv.textContent || tempDiv.innerText; // textContent is preferred
-    
-        return plainText;
-    
+        return await response.text();
       } catch (error) {
-        console.error("Error fetching or processing content:", error);
-        return null; // Or handle the error as appropriate
+        console.error("Error fetching content:", error);
+        return null;
       }
     }
 
@@ -141,7 +129,7 @@
         link.appendChild(title);
 
         // Click to open fullscreen iframe
-        link.addEventListener('click', () => {
+        link.addEventListener('click', async () => {
           document.body.innerHTML = '';
 
           const backButton = document.createElement('button');
@@ -151,14 +139,21 @@
             location.reload();
           });
 
-          const thing = getPlaintextFromURL(`https://raw.githubusercontent.com/CoolUBG/coolubg-list/refs/heads/main/${game.name}/index.html`);
+          const thing = await getHTMLFromURL(
+            `https://raw.githubusercontent.com/CoolUBG/coolubg-list/refs/heads/main/${game.name}/index.html`
+          );
 
-          const iframe = document.createElement('iframe');
-          iframe.className = 'game-iframe';
-          iframe.src = 'data:text/html;charset=utf-8,' + escape(thing);
+          if (thing) {
+            const iframe = document.createElement('iframe');
+            iframe.className = 'game-iframe';
+            iframe.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(thing);
 
-          document.body.appendChild(backButton);
-          document.body.appendChild(iframe);
+            document.body.appendChild(backButton);
+            document.body.appendChild(iframe);
+          } else {
+            alert("Failed to load game.");
+            location.reload();
+          }
         });
 
         container.appendChild(link);
@@ -172,3 +167,4 @@
     });
   </script>
 </body>
+</html>
