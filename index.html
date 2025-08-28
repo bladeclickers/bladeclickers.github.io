@@ -17,7 +17,6 @@
       align-items: center;
       padding: 20px;
       margin: 0;
-      /* allow scrolling */
       overflow: auto;
     }
     .button-link {
@@ -81,7 +80,16 @@
       background-color: #FFFFFFAA;
       cursor: pointer;
     }
+    #errorMsg {
+      color: white;
+      font-size: 20px;
+      text-align: center;
+      margin-top: 40px;
+    }
   </style>
+
+  <!-- Load local Ruffle -->
+  <script src="ruffle/ruffle.js"></script>
 </head>
 <body>
   <h1>bladeclickers.github.io</h1>
@@ -93,6 +101,15 @@
   <script>
     const container = document.querySelector('.button-container');
     const searchInput = document.getElementById('searchInput');
+
+    async function urlExists(url) {
+      try {
+        const res = await fetch(url, { method: "HEAD" });
+        return res.ok;
+      } catch {
+        return false;
+      }
+    }
 
     function renderGames(filter = '') {
       container.innerHTML = '';
@@ -115,23 +132,40 @@
         link.appendChild(img);
         link.appendChild(title);
 
-        // Click to open fullscreen iframe via Vercel proxy
-        link.addEventListener('click', () => {
-        
+        // Click handler with double fallback
+        link.addEventListener('click', async () => {
           const backButton = document.createElement('button');
           backButton.id = 'backButton';
           backButton.textContent = 'Back';
-          backButton.addEventListener('click', () => {
-            location.reload();
-          });
+          backButton.addEventListener('click', () => location.reload());
 
-          const iframe = document.createElement('iframe');
-          iframe.className = 'game-iframe';
-          iframe.src = `https://bladeclickers.github.io/${game.name}/index.html`;
-          
           document.body.innerHTML = '';
           document.body.appendChild(backButton);
-          document.body.appendChild(iframe);
+
+          const indexUrl = `https://bladeclickers.github.io/${game.name}/index.html`;
+          const swfUrl   = `https://bladeclickers.github.io/${game.name}.swf`;
+
+          if (await urlExists(indexUrl)) {
+            // index.html exists → iframe
+            const iframe = document.createElement('iframe');
+            iframe.className = 'game-iframe';
+            iframe.src = indexUrl;
+            document.body.appendChild(iframe);
+          } else if (await urlExists(swfUrl)) {
+            // swf exists → Ruffle
+            const ruffle = window.RufflePlayer.newest();
+            const player = ruffle.createPlayer();
+            player.style.width = "100vw";
+            player.style.height = "100vh";
+            document.body.appendChild(player);
+            player.load(swfUrl);
+          } else {
+            // neither exists → show error
+            const msg = document.createElement('div');
+            msg.id = 'errorMsg';
+            msg.textContent = "❌ Game not found.";
+            document.body.appendChild(msg);
+          }
         });
 
         container.appendChild(link);
