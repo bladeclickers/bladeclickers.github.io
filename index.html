@@ -129,7 +129,7 @@
         // fallback if the first src doesn't exist
         img.onerror = () => {
           img.onerror = null; // avoid infinite loop if fallback also fails
-          img.src = `images/${game.name}.png`;
+          img.src = `images/${game.name}.jpg`;
         };
 
         const title = document.createElement('div');
