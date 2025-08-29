@@ -125,6 +125,12 @@
         img.className = 'sigma';
         img.src = `https://raw.githubusercontent.com/CoolUBG/CoolUBG.github.io/refs/heads/main/images/games-256/${game.name}.png`;
         img.alt = game.formatted_Name;
+        
+        // fallback if the first src doesn't exist
+        img.onerror = () => {
+          img.onerror = null; // avoid infinite loop if fallback also fails
+          img.src = `images/${game.name}.png`;
+        };
 
         const title = document.createElement('div');
         title.textContent = game.formatted_Name;
