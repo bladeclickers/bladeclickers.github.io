@@ -1,2 +1,4 @@
 
 *.py
+.ssh
+.ssh.pub
