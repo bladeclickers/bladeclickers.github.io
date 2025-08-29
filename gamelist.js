@@ -7,12 +7,6 @@ const games = [
     image: "img/banner1024x512.jpg"
   },
   {
-    name: "gunmayhem2",
-    formatted_Name: "Gun Mayhem 2",
-    file: "index.html",
-    image: "gm.jpg"
-  },
-  {
     name: "funnyshooter2",
     formatted_Name: "Funny Shooter 2",
     file: "index.html",
