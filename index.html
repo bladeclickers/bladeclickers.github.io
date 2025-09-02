@@ -101,7 +101,7 @@
   <script>
     const container = document.querySelector('.button-container');
     const searchInput = document.getElementById('searchInput');
-
+  
     async function urlExists(url) {
       try {
         const res = await fetch(url, { method: "HEAD" });
@@ -110,78 +110,98 @@
         return false;
       }
     }
-
+  
     function renderGames(filter = '') {
       container.innerHTML = '';
       const filteredGames = games.filter(game =>
         game.formatted_Name.toLowerCase().includes(filter.toLowerCase())
       );
-
+  
       filteredGames.forEach(game => {
         const link = document.createElement('div');
         link.className = 'button-link';
-
+  
         const img = document.createElement('img');
         img.className = 'sigma';
         img.src = `https://raw.githubusercontent.com/CoolUBG/CoolUBG.github.io/refs/heads/main/images/games-256/${game.name}.png`;
         img.alt = game.formatted_Name;
         
-        // fallback if the first src doesn't exist
         img.onerror = () => {
-          img.onerror = null; // avoid infinite loop if fallback also fails
+          img.onerror = null;
           img.src = `images/${game.name}.jpg`;
         };
-
+  
         const title = document.createElement('div');
         title.textContent = game.formatted_Name;
-
+  
         link.appendChild(img);
         link.appendChild(title);
-
-        // Click handler with double fallback
+  
         link.addEventListener('click', async () => {
+          // Push new history state so back button works
+          history.pushState({ playing: true }, '', '#game');
+  
           const backButton = document.createElement('button');
           backButton.id = 'backButton';
           backButton.textContent = 'Back';
-          backButton.addEventListener('click', () => location.reload());
-
-          document.body.innerHTML = '';
+          backButton.addEventListener('click', () => history.back());
+  
+          // Hide main UI instead of nuking innerHTML
+          document.querySelector('h1').style.display = 'none';
+          document.getElementById('searchInput').style.display = 'none';
+          container.style.display = 'none';
+  
           document.body.appendChild(backButton);
-
+  
           const indexUrl = `https://bladeclickers.github.io/${game.name}/index.html`;
           const swfUrl   = `https://bladeclickers.github.io/${game.name}.swf`;
-
+  
           if (await urlExists(indexUrl)) {
-            // index.html exists → iframe
             const iframe = document.createElement('iframe');
             iframe.className = 'game-iframe';
             iframe.src = indexUrl;
+            iframe.id = 'gameFrame';
             document.body.appendChild(iframe);
           } else if (await urlExists(swfUrl)) {
-            // swf exists → Ruffle
             const ruffle = window.RufflePlayer.newest();
             const player = ruffle.createPlayer();
+            player.id = "gameFrame";
             player.style.width = "100vw";
             player.style.height = "100vh";
             document.body.appendChild(player);
             player.load(swfUrl);
           } else {
-            // neither exists → show error
             const msg = document.createElement('div');
             msg.id = 'errorMsg';
             msg.textContent = "❌ Game not found.";
             document.body.appendChild(msg);
           }
         });
-
+  
         container.appendChild(link);
       });
     }
-
+  
     renderGames();
-
+  
     searchInput.addEventListener('input', (e) => {
       renderGames(e.target.value);
+    });
+  
+    // Handle back button
+    window.addEventListener('popstate', () => {
+      const gameFrame = document.getElementById('gameFrame');
+      const backButton = document.getElementById('backButton');
+      const errorMsg = document.getElementById('errorMsg');
+  
+      if (gameFrame) gameFrame.remove();
+      if (backButton) backButton.remove();
+      if (errorMsg) errorMsg.remove();
+  
+      // Restore UI
+      document.querySelector('h1').style.display = '';
+      document.getElementById('searchInput').style.display = '';
+      container.style.display = '';
     });
   </script>
 </body>
