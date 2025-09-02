@@ -73,12 +73,18 @@
       top: 20px;
       left: 20px;
       z-index: 10000;
-      padding: 10px 15px;
-      font-size: 16px;
+      width: 50px;
+      height: 50px;
       border: none;
-      border-radius: 10px;
-      background-color: #FFFFFFAA;
+      border-radius: 50%;
+      background: #FFFFFFAA url('back.png') no-repeat center center;
+      background-size: contain; /* make icon fit inside circle */
       cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      transition: background-color 0.2s;
+    }
+    #backButton:hover {
+      background-color: #FFFFFF;
     }
     #errorMsg {
       color: white;
@@ -143,7 +149,6 @@
   
           const backButton = document.createElement('button');
           backButton.id = 'backButton';
-          backButton.textContent = 'Back';
           backButton.addEventListener('click', () => history.back());
   
           // Hide main UI instead of nuking innerHTML
