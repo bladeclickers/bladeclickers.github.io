@@ -1,6 +1,12 @@
 const games = [
   //{ name: "1v1.lol", NAME MATCHES HTML/PNG    formatted_Name: "1v1.lol", CUSTOM NAME THAT READABLE IN GAME LIST    fileType: "html" could be html or flash/swf if missing defaults to html, category: "none",             date: "7-12-2023" ,  DAY MONTH YEAR               release_Date: "25-12-2024" }, DAY MONTH YEAR can be "25-12-2024" or 2024
   {
+    name: "dodgingheck",
+    formatted_Name: "Dodging Heck",
+    file: "index.html",
+    image: "img/banner1024x512.jpg"
+  },
+  {
     name: "yohoho",
     formatted_Name: "YoHoHo.io",
     file: "index.html",
