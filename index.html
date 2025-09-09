@@ -1,215 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Schoolbox</title>
-  <meta name="description" content="">
-  <link id="favicon" rel="icon" href="background.jpg" type="image/jpeg">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      font-family: 'Segoe UI Semibold', sans-serif;
-      background: url('https://bladeclickers.github.io/background.jpg') no-repeat center center fixed;
-      background-size: cover;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
+    body, html {
       margin: 0;
-      overflow: auto;
-    }
-    .button-link {
-      display: block;
-      text-decoration: none;
-      color: black;
-      font-family: 'Segoe UI Semibold', sans-serif;
-      background-color: #EEEEEE;
-      padding: 10px;
-      border-radius: 15px;
-      text-align: center;
-      width: 240px;
-      margin: 10px;
-      transition: background-color 0.3s;
-      cursor: pointer;
-    }
-    .button-link:hover {
-      background-color: #FFFFFF;
-    }
-    .sigma {
-      display: block;
-      height: 120px;
-      width: 160px;
-      border-radius: 15px;
-      margin: 0 auto;
-    }
-    h1 {
-      color: white;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .button-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      padding: 0;
+      height: 100%;
       width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
-    #searchInput {
-      font-family: 'Segoe UI Semibold', sans-serif;
-      font-size: 16px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-    .game-iframe {
-      position: fixed;
-      top: 0;
-      left: 0;
+    iframe {
       width: 100vw;
       height: 100vh;
       border: none;
-      z-index: 9999;
-    }
-    #backButton {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 10000;
-      width: 50px;
-      height: 50px;
-      border: none;
-      border-radius: 50%;
-      background: #FFFFFFAA url('back.png') no-repeat center center;
-      background-size: 50%; /* half the size of the button */
-      cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-      transition: background-color 0.2s;
-    }
-    
-    #backButton:hover {
-      background-color: #FFFFFF;
-    }
-
-    #errorMsg {
-      color: white;
-      font-size: 20px;
-      text-align: center;
-      margin-top: 40px;
     }
   </style>
-
-  <!-- Load local Ruffle -->
-  <script src="ruffle/ruffle.js"></script>
 </head>
 <body>
-  <h1>bladeclickers.github.io</h1>
-  <div style="text-align: center;">
-    <input type="text" id="searchInput" placeholder="Search games..." style="margin-bottom: 20px; padding: 10px; border-radius: 10px; border: none; width: 250px; text-align: center;">
-  </div>
-  <div class="button-container"></div>
-  <script src="gamelist.js"></script>
-  <script>
-    const container = document.querySelector('.button-container');
-    const searchInput = document.getElementById('searchInput');
-  
-    async function urlExists(url) {
-      try {
-        const res = await fetch(url, { method: "HEAD" });
-        return res.ok;
-      } catch {
-        return false;
-      }
-    }
-  
-    function renderGames(filter = '') {
-      container.innerHTML = '';
-      const filteredGames = games.filter(game =>
-        game.formatted_Name.toLowerCase().includes(filter.toLowerCase())
-      );
-  
-      filteredGames.forEach(game => {
-        const link = document.createElement('div');
-        link.className = 'button-link';
-  
-        const img = document.createElement('img');
-        img.className = 'sigma';
-        img.src = `https://raw.githubusercontent.com/CoolUBG/CoolUBG.github.io/refs/heads/main/images/games-256/${game.name}.png`;
-        img.alt = game.formatted_Name;
-        
-        img.onerror = () => {
-          img.onerror = null;
-          img.src = `images/${game.name}.jpg`;
-        };
-  
-        const title = document.createElement('div');
-        title.textContent = game.formatted_Name;
-  
-        link.appendChild(img);
-        link.appendChild(title);
-  
-        link.addEventListener('click', async () => {
-          // Push new history state so back button works
-          history.pushState({ playing: true }, '', '#game');
-  
-          const backButton = document.createElement('button');
-          backButton.id = 'backButton';
-          backButton.addEventListener('click', () => history.back());
-  
-          // Hide main UI instead of nuking innerHTML
-          document.querySelector('h1').style.display = 'none';
-          document.getElementById('searchInput').style.display = 'none';
-          container.style.display = 'none';
-  
-          document.body.appendChild(backButton);
-  
-          const indexUrl = `https://bladeclickers.github.io/${game.name}/index.html`;
-          const swfUrl   = `https://bladeclickers.github.io/${game.name}.swf`;
-  
-          if (await urlExists(indexUrl)) {
-            const iframe = document.createElement('iframe');
-            iframe.className = 'game-iframe';
-            iframe.src = indexUrl;
-            iframe.id = 'gameFrame';
-            document.body.appendChild(iframe);
-          } else if (await urlExists(swfUrl)) {
-            const ruffle = window.RufflePlayer.newest();
-            const player = ruffle.createPlayer();
-            player.id = "gameFrame";
-            player.style.width = "100vw";
-            player.style.height = "100vh";
-            document.body.appendChild(player);
-            player.load(swfUrl);
-          } else {
-            const msg = document.createElement('div');
-            msg.id = 'errorMsg';
-            msg.textContent = "❌ Game not found.";
-            document.body.appendChild(msg);
-          }
-        });
-  
-        container.appendChild(link);
-      });
-    }
-  
-    renderGames();
-  
-    searchInput.addEventListener('input', (e) => {
-      renderGames(e.target.value);
-    });
-  
-    // Handle back button
-    window.addEventListener('popstate', () => {
-      const gameFrame = document.getElementById('gameFrame');
-      const backButton = document.getElementById('backButton');
-      const errorMsg = document.getElementById('errorMsg');
-  
-      if (gameFrame) gameFrame.remove();
-      if (backButton) backButton.remove();
-      if (errorMsg) errorMsg.remove();
-  
-      // Restore UI
-      document.querySelector('h1').style.display = '';
-      document.getElementById('searchInput').style.display = '';
-      container.style.display = '';
-    });
-  </script>
+  <iframe src="https://scratch.mit.edu/projects/1213376097/embed" 
+          allowtransparency="true" 
+          frameborder="0" 
+          scrolling="no" 
+          allowfullscreen>
+  </iframe>
 </body>
 </html>
