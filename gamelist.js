@@ -7,6 +7,12 @@ const games = [
     image: "img/banner1024x512.jpg"
   },
   {
+    name: "maneuveringunderworld",
+    formatted_Name: "Maneuvering Underworld",
+    file: "index.html",
+    image: "img/banner1024x512.jpg"
+  },
+  {
     name: "yohoho",
     formatted_Name: "YoHoHo.io",
     file: "index.html",
