@@ -188,7 +188,8 @@
         if (!game.category) return false; // ignore games without category
         const matchesCategory = category === '' || game.category.toLowerCase().includes(category.toLowerCase());
         const matchesName = game.formatted_Name.toLowerCase().includes(filter.toLowerCase());
-        return matchesCategory && matchesName;
+        //return matchesCategory && matchesName;
+        return matchesName;
       });
 
       filteredGames.forEach(game => {
@@ -281,6 +282,7 @@
   </script>
 </body>
 </html>
+
 
 
 
