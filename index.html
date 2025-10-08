@@ -186,7 +186,7 @@
       container.innerHTML = '';
       const filteredGames = games.filter(game => {
         if (!game.category) return false; // ignore games without category
-        const matchesCategory = category === '' || game.category.toLowerCase() === category.toLowerCase();
+        const matchesCategory = category === '' || game.category.toLowerCase().includes(category.toLowerCase());
         const matchesName = game.formatted_Name.toLowerCase().includes(filter.toLowerCase());
         return matchesCategory && matchesName;
       });
@@ -281,4 +281,5 @@
   </script>
 </body>
 </html>
+
 
