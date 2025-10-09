@@ -184,12 +184,18 @@
 
     function renderGames(filter = '', category = '') {
       container.innerHTML = '';
+
       const filteredGames = games.filter(game => {
-        //if (!game.category) return false; // ignore games without category
-        const matchesCategory = category === '' || game.category.toLowerCase().includes(category.toLowerCase());
+        // Match category
+        const matchesCategory =
+          category === '' ||
+          (Array.isArray(game.category) &&
+            game.category.some(cat => cat.toLowerCase().includes(category.toLowerCase())));
+      
+        // Match name
         const matchesName = game.formatted_Name.toLowerCase().includes(filter.toLowerCase());
-        //return matchesCategory && matchesName;
-        return matchesName;
+      
+        return matchesCategory && matchesName;
       });
 
       filteredGames.forEach(game => {
@@ -282,6 +288,7 @@
   </script>
 </body>
 </html>
+
 
 
 
