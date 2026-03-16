@@ -229,7 +229,7 @@
 
         const img = document.createElement('img');
         img.className = 'sigma';
-        img.src = `https://raw.githubusercontent.com/CoolUBG/CoolUBG.github.io/refs/heads/main/images/games-256/${game.name}.png`;
+        img.src = `https://raw.githubusercontent.com/bladeclickers/bladeclickers.github.io/refs/heads/main/images/${game.name}.png`;
         img.alt = game.formatted_Name;
         
         img.onerror = () => {
@@ -263,6 +263,7 @@
 
           const indexUrl = `https://bladeclickers.github.io/${game.name}/index.html`;
           const swfUrl   = `https://bladeclickers.github.io/${game.name}.swf`;
+          const otherUrl = `https://bladeclickers.github.io/${game.name}/${game.name}.html`;
 
           if (await urlExists(indexUrl)) {
             const iframe = document.createElement('iframe');
@@ -278,6 +279,12 @@
             player.style.height = "100vh";
             document.body.appendChild(player);
             player.load(swfUrl);
+          } else if (await urlExists(otherUrl)) {
+            const iframe = document.createElement('iframe');
+            iframe.className = 'game-iframe';
+            iframe.src = otherUrl;
+            iframe.id = 'gameFrame';
+            document.body.appendChild(iframe);
           } else {
             const msg = document.createElement('div');
             msg.id = 'errorMsg';
