@@ -1,112 +1,189 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>bladeclickers</title>
-  <meta name="description" content="">
-  <link id="favicon" rel="icon" href="ryh.png" type="image/png">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>bladeclickers</title>
+  <link rel="icon" href="ryh.png">
   <style>
     body {
+      margin: 0;
       font-family: 'Segoe UI Semibold', sans-serif;
-      background-color: #333333; /* dark gray background */
+      background: #333;
+      display: flex;
+      overflow: hidden;
+    }
+
+    .layout {
+      display: flex;
+      flex-grow: 1;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 70px;
+      background: #222;
+      padding: 10px 5px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px;
-      margin: 0;
-      overflow: auto;
+      transition: width 0.3s ease;
+      overflow: hidden;
     }
 
-    .button-link {
-      display: block;
-      text-decoration: none;
-      color: black;
-      font-family: 'Segoe UI Semibold', sans-serif;
-      background-color: #EEEEEE;
-      padding: 10px;
-      border-radius: 15px;
+    .sidebar:hover {
+      width: 220px;
+    }
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 10px;
+    }
+
+    .mini-text {
+      color: white;
+      font-size: 12px;
       text-align: center;
-      width: 240px;
-      margin: 10px;
-      transition: background-color 0.3s;
+      line-height: 1.2;
+    }
+
+    .sidebar-content {
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: 0.25s ease;
+      width: 100%;
+    }
+
+    .sidebar:hover .sidebar-content {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .sidebar button {
+      width: 100%;
+      margin-top: 8px;
+      padding: 6px;
+      border: none;
+      border-radius: 8px;
+      background: #444;
+      color: white;
+      cursor: pointer;
+      font-size: 12px;
+      transition: 0.2s;
+    }
+
+    .sidebar button:hover {
+      background: #666;
+    }
+
+    .category-container {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .category-container.show {
+      max-height: 400px;
+    }
+
+    .category-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      font-family: 'Segoe UI Semibold', sans-serif;
+      gap: 2px;
+      margin-top: 8px;
+    }
+
+    .category-btn {
+      padding: 5px;
+      font-family: 'Segoe UI Semibold', sans-serif;
+      font-size: 11px;
+      border-radius: 6px;
+      border: none;
+      background: #555;
+      color: white;
       cursor: pointer;
     }
 
-    .button-link:hover {
-      background-color: #FFFFFF;
+    .category-btn.active {
+      background: white;
+      color: black;
     }
 
-    .sigma {
+    .search-overlay {
+      position: fixed;
+      top: 13px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20000;
+      display: none;
+    }
+
+    .search-overlay.active {
       display: block;
-      height: 120px;
-      width: 160px;
-      border-radius: 15px;
-      margin: 0 auto;
+    }
+
+    .search-box {
+      padding: 12px 20px;
+      font-size: 18px;
+      border-radius: 12px;
+      font-family: 'Segoe UI Semibold', sans-serif;
+      border: none;
+      width: 750px;
+      height: 11px;
+      text-align: center;
+      transition: width 0.3s ease, height 0.3s ease;
+    }
+
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      transition: margin-top 0.3s ease;
+      padding-top: 30px;
     }
 
     h1 {
       color: white;
       text-align: center;
       margin-bottom: 20px;
-      text-shadow: 0 0 10px #ffffff, 0 0 20px #cccccc, 0 0 30px #999999;
-      transition: text-shadow 0.3s;
-    }
-
-    h1:hover {
-      text-shadow: 0 0 20px #ffffff, 0 0 40px #dddddd, 0 0 60px #bbbbbb;
-    }
-
-    h5 {
-      color: white;
-      text-align: center;
-      margin-bottom: 20px;
-      text-shadow: 0 0 10px #ffffff, 0 0 20px #cccccc, 0 0 30px #999999;
-      transition: text-shadow 0.3s;
-    }
-
-    h5:hover {
-      text-shadow: 0 0 20px #ffffff, 0 0 40px #dddddd, 0 0 60px #bbbbbb;
+      margin-top: 0;
+      transition: all 0.3s ease;
     }
 
     .button-container {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      width: 100%;
     }
 
-    #searchInput {
-      font-family: 'Segoe UI Semibold', sans-serif;
-      font-size: 16px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      border-radius: 10px;
-      border: none;
+    .button-link {
+      background: #eee;
+      border-radius: 15px;
+      width: 240px;
+      margin: 12px;
       padding: 10px;
-      width: 250px;
       text-align: center;
-      margin-bottom: 20px;
+      cursor: pointer;
+      transition: 0.25s;
     }
 
-    #categorySelect {
-      font-family: 'Segoe UI Semibold', sans-serif;
-      font-size: 16px;
-      padding: 10px;
+    .button-link:hover {
+      transform: translateY(-5px);
+      background: #fff;
+    }
+
+    .sigma {
+      width: 160px;
+      height: 120px;
       border-radius: 10px;
-      border: none;
-      width: 200px;
-      margin-bottom: 20px;
     }
 
-    .game-iframe {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      border: none;
-      z-index: 9999;
+    .game-title {
+      margin-top: 0px;
+      color: black;
+      font-size: 16px;
     }
 
     #backButton {
@@ -116,234 +193,188 @@
       z-index: 10000;
       width: 36px;
       height: 36px;
-      border: none;
       border-radius: 50%;
-      background: #FFFFFFAA url('back.png') no-repeat center center;
+      border: none;
+      background: #FFFFFFAA url('back.png') no-repeat center;
       background-size: 50%;
       cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-      transition: background-color 0.2s;
-    }
-    
-    #backButton:hover {
-      background-color: #FFFFFF;
     }
 
-    #errorMsg {
-      color: white;
-      font-size: 20px;
-      text-align: center;
-      margin-top: 40px;
+    .game-iframe {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      z-index: 9999;
     }
 
-    .thing {
-      display: flex;
-      justify-content: center; /* horizontal alignment */
-      align-items: center;     /* vertical alignment */
-    }
   </style>
-
-  <!-- Load local Ruffle -->
   <script src="ruffle/ruffle.js"></script>
 </head>
 <body>
-  <div class="thing">
-    <img src="logo2.png" id="logoImage" style="width:75px;height:75px;"/>
+
+<div class="search-overlay" id="searchOverlay">
+  <input class="search-box" id="searchInput" placeholder="Search games...">
+</div>
+
+<div class="layout">
+  <div class="sidebar">
+    <img src="logo2.png" class="logo" />
+    <div class="mini-text">bladeclickers<br>—<br>made by bladeskilled</div>
+
+    <div class="sidebar-content">
+      <button id="searchBtn" style="font-family: 'Segoe UI Semibold', sans-serif;">⌕   Search</button>
+      <button id="toggleCategories" style="font-family: 'Segoe UI Semibold', sans-serif;">🗀   Categories</button>
+
+      <div class="category-container" id="categoryContainer">
+        <div class="category-buttons">
+          <button class="category-btn active" data-category="">All</button>
+          <button class="category-btn" data-category="action">Action</button>
+          <button class="category-btn" data-category="arcade">Arcade</button>
+          <button class="category-btn" data-category="puzzle">Puzzle</button>
+          <button class="category-btn" data-category="rpg">RPG</button>
+          <button class="category-btn" data-category="shooter">Shooter</button>
+          <button class="category-btn" data-category="sports">Sports</button>
+          <button class="category-btn" data-category="adventure">Adventure</button>
+          <button class="category-btn" data-category="platformer">Platformer</button>
+          <button class="category-btn" data-category="racing">Racing</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
     <h1>bladeclickers.github.io</h1>
+    <div class="button-container"></div>
   </div>
+</div>
 
-  <div class="thing">
-    <img src="pfp.png" id="bladeskilledIcon" style="width:30px;height:30px;"/>
-    <h5>- - - made by bladeskilled - - -</h5>
-  </div>
+<script src="gamelist.js"></script>
+<script>
+const container = document.querySelector('.button-container');
+const searchInput = document.getElementById('searchInput');
+const overlay = document.getElementById('searchOverlay');
+const main = document.querySelector('.main');
+const categoryButtons = document.querySelectorAll('.category-btn');
+const searchBtn = document.getElementById('searchBtn');
 
-  <!-- Search Input -->
-  <div style="text-align: center;">
-    <input type="text" id="searchInput" placeholder="Search games..">
-  </div>
+let isSearchOpen = false;
 
-  <!-- Category Dropdown -->
-  <div style="text-align: center;">
-    <label for="categorySelect" id="categoryText" style="color: white; margin-right: 10px;">Category:</label>
-    <select id="categorySelect">
-      <option value="">All</option>
-      <option value="3d">3D</option>
-      <option value="action">Action</option>
-      <option value="adventure">Adventure</option>
-      <option value="arcade">Arcade</option>
-      <option value="shooter">Shooter</option>
-      <option value="platformer">Platformer</option>
-      <option value="racing">Racing</option>
-      <option value="puzzle">Puzzle</option>
-      <option value="strategy">Strategy</option>
-      <option value="simulation">Simulation</option>
-      <option value="sports">Sports</option>
-      <option value="multiplayer">Multiplayer</option>
-      <option value="idle">Idle</option>
-      <option value="horror">Horror</option>
-      <option value="fighting">Fighting</option>
-      <option value="board">Board</option>
-      <option value="card game">Card Game</option>
-      <option value="music">Music</option>
-      <option value="survival">Survival</option>
-      <option value="rpg">RPG</option>
-    </select>
-  </div>
+searchBtn.onclick = () => {
+  if (isSearchOpen) {
+    overlay.classList.remove('active');
+    main.style.marginTop = '0px'; 
+  } else {
+    overlay.classList.add('active');
+    main.style.marginTop = '60px';
+  }
+  isSearchOpen = !isSearchOpen;
+};
 
-  <div class="button-container"></div>
+document.getElementById('toggleCategories').onclick = () => {
+  document.getElementById('categoryContainer').classList.toggle('show');
+};
 
-  <script src="gamelist.js"></script>
-  <script>
-    const container = document.querySelector('.button-container');
-    const searchInput = document.getElementById('searchInput');
-    const categorySelect = document.getElementById('categorySelect');
+categoryButtons.forEach(btn => {
+  btn.onclick = () => {
+    categoryButtons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderGames('', btn.dataset.category);
+  };
+});
 
-    async function urlExists(url) {
-      try {
-        const res = await fetch(url, { method: "HEAD" });
-        return res.ok;
-      } catch {
-        return false;
+searchInput.addEventListener('input', () => {
+  renderGames(searchInput.value); 
+});
+
+async function urlExists(url) {
+  try {
+    const res = await fetch(url, { method: "HEAD" });
+    return res.ok;
+  } catch { return false; }
+}
+
+function renderGames(filter='', category='') {
+  container.innerHTML = '';
+
+  const filteredGames = games.filter(game => {
+    const matchesCategory =
+      category === '' ||
+      (Array.isArray(game.category) &&
+        game.category.some(cat => cat.toLowerCase().includes(category.toLowerCase())));
+
+    const matchesName = game.formatted_Name.toLowerCase().includes(filter.toLowerCase());
+
+    return matchesCategory && matchesName;
+  });
+
+  filteredGames.forEach(game => {
+    const link = document.createElement('div');
+    link.className = 'button-link';
+
+    const img = document.createElement('img');
+    img.className = 'sigma';
+    img.src = `https://raw.githubusercontent.com/bladeclickers/bladeclickers.github.io/refs/heads/main/images/${game.name}.png`;
+
+    img.onerror = () => {
+      img.onerror = null;
+      img.src = `images/${game.name}.jpg`;
+    };
+
+    const title = document.createElement('div');
+    title.textContent = game.formatted_Name;
+    title.className = 'game-title';
+
+    link.appendChild(img);
+    link.appendChild(title);
+
+    link.addEventListener('click', async () => {
+      history.pushState({ playing: true }, '', '#game');
+
+      const backButton = document.createElement('button');
+      backButton.id = 'backButton';
+      backButton.addEventListener('click', () => history.back());
+
+      document.querySelector('h1').style.display = 'none';
+      document.querySelector('.button-container').style.display = 'none';
+      document.body.appendChild(backButton);
+
+      const indexUrl = `https://bladeclickers.github.io/${game.name}/index.html`;
+      const swfUrl   = `https://bladeclickers.github.io/${game.name}.swf`;
+      const otherUrl = `https://bladeclickers.github.io/${game.name}/${game.name}.html`;
+
+      if (await urlExists(indexUrl)) {
+        const iframe = document.createElement('iframe');
+        iframe.className = 'game-iframe';
+        iframe.src = indexUrl;
+        document.body.appendChild(iframe);
+      } else if (await urlExists(swfUrl)) {
+        const ruffle = window.RufflePlayer.newest();
+        const player = ruffle.createPlayer();
+        player.id = "gameFrame";
+        document.body.appendChild(player);
+        player.load(swfUrl);
+      } else if (await urlExists(otherUrl)) {
+        const iframe = document.createElement('iframe');
+        iframe.className = 'game-iframe';
+        iframe.src = otherUrl;
+        document.body.appendChild(iframe);
+      } else {
+        const msg = document.createElement('div');
+        msg.id = 'errorMsg';
+        msg.textContent = "❌ Game not found.";
+        document.body.appendChild(msg);
       }
-    }
-
-    function renderGames(filter = '', category = '') {
-      container.innerHTML = '';
-
-      const filteredGames = games.filter(game => {
-        // Match category
-        const matchesCategory =
-          category === '' ||
-          (Array.isArray(game.category) &&
-            game.category.some(cat => cat.toLowerCase().includes(category.toLowerCase())));
-      
-        // Match name
-        const matchesName = game.formatted_Name.toLowerCase().includes(filter.toLowerCase());
-      
-        return matchesCategory && matchesName;
-      });
-
-      filteredGames.forEach(game => {
-        const link = document.createElement('div');
-        link.className = 'button-link';
-
-        const img = document.createElement('img');
-        img.className = 'sigma';
-        img.src = `https://raw.githubusercontent.com/bladeclickers/bladeclickers.github.io/refs/heads/main/images/${game.name}.png`;
-        img.alt = game.formatted_Name;
-        
-        img.onerror = () => {
-          img.onerror = null;
-          img.src = `images/${game.name}.jpg`;
-        };
-
-        const title = document.createElement('div');
-        title.textContent = game.formatted_Name;
-
-        link.appendChild(img);
-        link.appendChild(title);
-
-        link.addEventListener('click', async () => {
-          history.pushState({ playing: true }, '', '#game');
-
-          const backButton = document.createElement('button');
-          backButton.id = 'backButton';
-          backButton.addEventListener('click', () => history.back());
-
-          document.querySelector('h1').style.display = 'none';
-          document.querySelector('h5').style.display = 'none';
-          document.getElementById('searchInput').style.display = 'none';
-          document.getElementById('logoImage').style.display = 'none';
-          document.getElementById('bladeskilledIcon').style.display = 'none';
-          document.getElementById('categoryText').style.display = 'none';
-          categorySelect.style.display = 'none';
-          container.style.display = 'none';
-
-          document.body.appendChild(backButton);
-
-          const indexUrl = `https://bladeclickers.github.io/${game.name}/index.html`;
-          const swfUrl   = `https://bladeclickers.github.io/${game.name}.swf`;
-          const otherUrl = `https://bladeclickers.github.io/${game.name}/${game.name}.html`;
-
-          if (await urlExists(indexUrl)) {
-            const iframe = document.createElement('iframe');
-            iframe.className = 'game-iframe';
-            iframe.src = indexUrl;
-            iframe.id = 'gameFrame';
-            document.body.appendChild(iframe);
-          } else if (await urlExists(swfUrl)) {
-            const ruffle = window.RufflePlayer.newest();
-            const player = ruffle.createPlayer();
-            player.id = "gameFrame";
-            player.style.width = "100vw";
-            player.style.height = "100vh";
-            document.body.appendChild(player);
-            player.load(swfUrl);
-          } else if (await urlExists(otherUrl)) {
-            const iframe = document.createElement('iframe');
-            iframe.className = 'game-iframe';
-            iframe.src = otherUrl;
-            iframe.id = 'gameFrame';
-            document.body.appendChild(iframe);
-          } else {
-            const msg = document.createElement('div');
-            msg.id = 'errorMsg';
-            msg.textContent = "❌ Game not found.";
-            document.body.appendChild(msg);
-          }
-        });
-
-        container.appendChild(link);
-      });
-    }
-
-    renderGames();
-
-    searchInput.addEventListener('input', (e) => {
-      renderGames(e.target.value, categorySelect.value);
     });
 
-    categorySelect.addEventListener('change', (e) => {
-      renderGames(searchInput.value, e.target.value);
-    });
+    container.appendChild(link);
+  });
+}
 
-    window.addEventListener('popstate', () => {
-      const gameFrame = document.getElementById('gameFrame');
-      const backButton = document.getElementById('backButton');
-      const errorMsg = document.getElementById('errorMsg');
+renderGames();
+</script>
 
-      if (gameFrame) gameFrame.remove();
-      if (backButton) backButton.remove();
-      if (errorMsg) errorMsg.remove();
-
-      document.querySelector('h1').style.display = '';
-      document.querySelector('h5').style.display = '';
-      document.getElementById('searchInput').style.display = '';
-      document.getElementById('logoImage').style.display = '';
-      document.getElementById('bladeskilledIcon').style.display = '';
-      document.getElementById('categoryText').style.display = '';
-      categorySelect.style.display = '';
-      container.style.display = '';
-    });
-  </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
