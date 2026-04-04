@@ -22,6 +22,7 @@ const games = [
     name: "funnyshooter2",
     formatted_Name: "Funny Shooter 2",
     file: "index.html",
+    category: ["shooter"],
     image: "screenshots/1.jpg"
   },
   {
@@ -33,6 +34,13 @@ const games = [
   {
     name: "10minutestilldawn",
     formatted_Name: "10 Minutes Till Dawn",
+    file: "index.html",
+    image: "logo.jpg"
+  },
+    {
+    name: "5-nights-at-epstein",
+    formatted_Name: "5 Nights at Epstein",
+    category: ["horror"],
     file: "index.html",
     image: "logo.jpg"
   },
