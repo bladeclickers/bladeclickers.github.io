@@ -335,7 +335,7 @@ function renderGames(filter='', category='') {
 
       const backButton = document.createElement('button');
       backButton.id = 'backButton';
-      backButton.addEventListener('click', () => history.back());
+      backButton.addEventListener('click', () => location.reload());
 
       document.querySelector('h1').style.display = 'none';
       document.querySelector('.button-container').style.display = 'none';
