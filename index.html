@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>bladeclickers</title>
   <link rel="icon" href="ryh.png">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://ruffle.io; style-src 'self' 'unsafe-inline'; img-src 'self' https://raw.githubusercontent.com data:; frame-src 'self' https://bladeclickers.github.io; connect-src 'self' https://bladeclickers.github.io;">
   <style>
     body {
       margin: 0;
@@ -210,6 +211,36 @@
       z-index: 9999;
     }
 
+    #errorMsg {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      color: red;
+      padding: 20px;
+      border-radius: 10px;
+      z-index: 10001;
+      font-family: monospace;
+      font-size: 18px;
+      text-align: center;
+    }
+
+    body.game-active .search-overlay {
+      display: none !important;
+    }
+    
+    body.game-active .sidebar {
+      display: none !important;
+    }
+    
+    body.game-active .layout {
+      display: none !important;
+    }
+    
+    body.game-active .main {
+      display: none !important;
+    }
   </style>
   <script src="ruffle/ruffle.js"></script>
 </head>
@@ -253,14 +284,137 @@
 
 <script src="gamelist.js"></script>
 <script>
+function sanitizeGameName(name) {
+  if (!/^[a-zA-Z0-9_-]+$/.test(name)) {
+    console.warn('Invalid game name:', name);
+    return null;
+  }
+  return name;
+}
+
+async function urlExists(url) {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    const res = await fetch(url, { method: "HEAD", signal: controller.signal });
+    clearTimeout(timeoutId);
+    return res.ok;
+  } catch { 
+    return false; 
+  }
+}
+
+function closeSearchOverlay() {
+  const overlay = document.getElementById('searchOverlay');
+  const main = document.querySelector('.main');
+  if (overlay.classList.contains('active')) {
+    overlay.classList.remove('active');
+    main.style.marginTop = '0px';
+    isSearchOpen = false;
+  }
+}
+
+let currentGameFrame = null;
+let isSearchOpen = false;
+
+function removeGame() {
+  if (currentGameFrame) {
+    if (currentGameFrame.remove) currentGameFrame.remove();
+    currentGameFrame = null;
+  }
+  const existingBackBtn = document.getElementById('backButton');
+  if (existingBackBtn) existingBackBtn.remove();
+  const existingError = document.getElementById('errorMsg');
+  if (existingError) existingError.remove();
+  document.body.classList.remove('game-active');
+}
+
+async function loadGame(game) {
+  removeGame();
+  closeSearchOverlay();
+  
+  const safeName = sanitizeGameName(game.name);
+  if (!safeName) {
+    showError("❌ Invalid game name.");
+    return;
+  }
+  
+  document.querySelector('h1').style.display = 'none';
+  document.querySelector('.button-container').style.display = 'none';
+  document.body.classList.add('game-active');
+  
+  const backButton = document.createElement('button');
+  backButton.id = 'backButton';
+  backButton.addEventListener('click', () => {
+    location.reload();
+  });
+  document.body.appendChild(backButton);
+  
+  const indexUrl = `https://bladeclickers.github.io/${safeName}/index.html`;
+  const swfUrl   = `https://bladeclickers.github.io/${safeName}.swf`;
+  const otherUrl = `https://bladeclickers.github.io/${safeName}/${safeName}.html`;
+  
+  if (await urlExists(indexUrl)) {
+    const iframe = document.createElement('iframe');
+    iframe.className = 'game-iframe';
+    iframe.src = indexUrl;
+    iframe.sandbox = "allow-scripts allow-same-origin allow-popups allow-forms";
+    iframe.allowFullscreen = true;
+    document.body.appendChild(iframe);
+    currentGameFrame = iframe;
+  } else if (await urlExists(swfUrl)) {
+    const ruffle = window.RufflePlayer.newest();
+    const player = ruffle.createPlayer();
+    player.id = "gameFrame";
+    player.style.position = "fixed";
+    player.style.top = "0";
+    player.style.left = "0";
+    player.style.width = "100%";
+    player.style.height = "100%";
+    player.style.zIndex = "9999";
+    player.style.border = "none";
+    player.load(swfUrl);
+    document.body.appendChild(player);
+    currentGameFrame = player;
+  } else if (await urlExists(otherUrl)) {
+    const iframe = document.createElement('iframe');
+    iframe.className = 'game-iframe';
+    iframe.src = otherUrl;
+    iframe.sandbox = "allow-scripts allow-same-origin allow-popups allow-forms";
+    iframe.allowFullscreen = true;
+    document.body.appendChild(iframe);
+    currentGameFrame = iframe;
+  } else {
+    showError(`❌ Game "${game.formatted_Name}" not found.`);
+    document.querySelector('h1').style.display = 'block';
+    document.querySelector('.button-container').style.display = 'flex';
+    document.body.classList.remove('game-active');
+    removeGame();
+  }
+}
+
+function showError(message) {
+  const msg = document.createElement('div');
+  msg.id = 'errorMsg';
+  msg.textContent = message;
+  document.body.appendChild(msg);
+  setTimeout(() => {
+    if (msg && msg.remove) msg.remove();
+  }, 3000);
+}
+
+window.addEventListener('popstate', (event) => {
+  if (event.state && event.state.playing) {
+    location.reload();
+  }
+});
+
 const container = document.querySelector('.button-container');
 const searchInput = document.getElementById('searchInput');
 const overlay = document.getElementById('searchOverlay');
 const main = document.querySelector('.main');
 const categoryButtons = document.querySelectorAll('.category-btn');
 const searchBtn = document.getElementById('searchBtn');
-
-let isSearchOpen = false;
 
 searchBtn.onclick = () => {
   if (isSearchOpen) {
@@ -289,13 +443,6 @@ searchInput.addEventListener('input', () => {
   renderGames(searchInput.value); 
 });
 
-async function urlExists(url) {
-  try {
-    const res = await fetch(url, { method: "HEAD" });
-    return res.ok;
-  } catch { return false; }
-}
-
 function renderGames(filter='', category='') {
   container.innerHTML = '';
 
@@ -316,11 +463,13 @@ function renderGames(filter='', category='') {
 
     const img = document.createElement('img');
     img.className = 'sigma';
-    img.src = `https://raw.githubusercontent.com/bladeclickers/bladeclickers.github.io/refs/heads/main/images/${game.name}.png`;
+    img.loading = 'lazy';
+    img.src = `https://raw.githubusercontent.com/bladeclickers/bladeclickers.github.io/refs/heads/main/images/${encodeURIComponent(game.name)}.png`;
+    img.alt = game.formatted_Name;
 
     img.onerror = () => {
       img.onerror = null;
-      img.src = `images/${game.name}.jpg`;
+      img.src = `images/${encodeURIComponent(game.name)}.jpg`;
     };
 
     const title = document.createElement('div');
@@ -332,41 +481,7 @@ function renderGames(filter='', category='') {
 
     link.addEventListener('click', async () => {
       history.pushState({ playing: true }, '', '#game');
-
-      const backButton = document.createElement('button');
-      backButton.id = 'backButton';
-      backButton.addEventListener('click', () => location.reload());
-
-      document.querySelector('h1').style.display = 'none';
-      document.querySelector('.button-container').style.display = 'none';
-      document.body.appendChild(backButton);
-
-      const indexUrl = `https://bladeclickers.github.io/${game.name}/index.html`;
-      const swfUrl   = `https://bladeclickers.github.io/${game.name}.swf`;
-      const otherUrl = `https://bladeclickers.github.io/${game.name}/${game.name}.html`;
-
-      if (await urlExists(indexUrl)) {
-        const iframe = document.createElement('iframe');
-        iframe.className = 'game-iframe';
-        iframe.src = indexUrl;
-        document.body.appendChild(iframe);
-      } else if (await urlExists(swfUrl)) {
-        const ruffle = window.RufflePlayer.newest();
-        const player = ruffle.createPlayer();
-        player.id = "gameFrame";
-        document.body.appendChild(player);
-        player.load(swfUrl);
-      } else if (await urlExists(otherUrl)) {
-        const iframe = document.createElement('iframe');
-        iframe.className = 'game-iframe';
-        iframe.src = otherUrl;
-        document.body.appendChild(iframe);
-      } else {
-        const msg = document.createElement('div');
-        msg.id = 'errorMsg';
-        msg.textContent = "❌ Game not found.";
-        document.body.appendChild(msg);
-      }
+      await loadGame(game);
     });
 
     container.appendChild(link);
