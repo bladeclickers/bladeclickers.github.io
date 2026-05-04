@@ -37,12 +37,18 @@ const games = [
     file: "index.html",
     image: "logo.jpg"
   },
-    {
+  {
     name: "5-nights-at-epstein",
     formatted_Name: "5 Nights at Epstein",
     category: ["horror"],
     file: "index.html",
     image: "logo.jpg"
+  },
+  {
+    name: "eaglercraft",
+    formatted_Name: "Eaglercraft 1.8.8",
+    file: "eaglercraft.html",
+    image: "eaglercraft.jpg"
   },
   {
     name: "2048",
