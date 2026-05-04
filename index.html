@@ -285,8 +285,20 @@
 <script src="gamelist.js"></script>
 <script>
 function sanitizeGameName(name) {
-  if (!/^[a-zA-Z0-9_-]+$/.test(name)) {
-    console.warn('Invalid game name:', name);
+  if (!name || typeof name !== 'string') {
+    console.warn('Invalid game name: empty or not a string');
+    return null;
+  }
+  if (!/^[a-zA-Z0-9_. -]+$/.test(name)) {
+    console.warn('Invalid game name (disallowed characters):', name);
+    return null;
+  }
+  if (name.includes('..') || name.includes('/') || name.includes('\\')) {
+    console.warn('Invalid game name (path traversal):', name);
+    return null;
+  }
+  if (/^[ .]/.test(name) || /[ .]$/.test(name)) {
+    console.warn('Invalid game name (leading/trailing dot or space):', name);
     return null;
   }
   return name;
