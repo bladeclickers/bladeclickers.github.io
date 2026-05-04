@@ -365,6 +365,10 @@ async function loadGame(game) {
   const indexUrl = `https://bladeclickers.github.io/${safeName}/index.html`;
   const swfUrl   = `https://bladeclickers.github.io/${safeName}.swf`;
   const otherUrl = `https://bladeclickers.github.io/${safeName}/${safeName}.html`;
+
+  if (safeName == "eaglercraft") {
+    window.location.href = otherUrl;
+  }
   
   if (await urlExists(indexUrl)) {
     const iframe = document.createElement('iframe');
