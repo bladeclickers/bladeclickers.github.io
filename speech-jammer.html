@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>speech jammer + mic gain & tartini</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
+
+:root {
+  --bg: #09090b;
+  --panel: #18181b;
+  --panel-2: #27272a;
+  --border: #3f3f46;
+  --text: #fafafa;
+  --muted: #a1a1aa;
+  --accent: #3b82f6;
+  --danger: #ef4444;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.unit {
+  width: 100%;
+  max-width: 640px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.brand {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+}
+
+.block {
+  flex: 1;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+.counter-display {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 42px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1;
+}
+
+.counter-display span {
+  font-size: 16px;
+  color: var(--muted);
+  font-weight: 400;
+  margin-left: 2px;
+}
+
+.knob-block {
+  flex: 1.2;
+}
+
+.knob-wrap {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  user-select: none;
+  touch-action: none;
+}
+
+.knob-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--panel);
+  border: 2px solid var(--border);
+  cursor: grab;
+}
+
+.knob-pointer {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  width: 2px;
+  height: 28px;
+  background: var(--accent);
+  transform-origin: 50% 40px;
+  margin-left: -1px;
+}
+
+.knob-ticks {
+  position: absolute;
+  inset: -4px;
+  width: 108px;
+  height: 108px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.knob-ticks text {
+  fill: var(--muted);
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+}
+
+.quickset {
+  display: flex;
+  gap: 4px;
+  margin-top: 16px;
+  width: 100%;
+}
+
+.qbtn, .tbtn {
+  flex: 1;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text);
+  padding: 6px 0;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.qbtn.active, .tbtn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.fader-track {
+  position: relative;
+  width: 24px;
+  height: 100px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.fader-slot {
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background: var(--border);
+}
+
+.fader-cap {
+  position: absolute;
+  left: 50%;
+  width: 18px;
+  height: 10px;
+  transform: translate(-50%, 50%);
+  border-radius: 2px;
+  background: var(--text);
+  cursor: grab;
+}
+
+.fader-value {
+  margin-top: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.status-row {
+  margin-top: 16px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.meter-leds {
+  flex: 1;
+  display: flex;
+  gap: 3px;
+  background: var(--panel);
+  padding: 4px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+.led-seg {
+  height: 6px;
+  flex: 1;
+  background: var(--border);
+}
+
+.led-seg.lit-amber { background: var(--accent); }
+.led-seg.lit-red { background: var(--danger); }
+
+.power-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pilot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--border);
+}
+
+.pilot.on { background: var(--danger); }
+
+.switch {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.switch.on {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.switch-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--muted);
+  transition: left 0.1s ease;
+}
+
+.switch.on .switch-thumb {
+  left: 18px;
+  background: #fff;
+}
+
+.status-line {
+  margin-top: 10px;
+  min-height: 14px;
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+.status-line.err { color: var(--danger); }
+
+.caution {
+  margin-top: 16px;
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #fca5a5;
+  text-align: center;
+}
+
+@media (max-width: 580px){
+  .row { flex-direction: column; gap: 12px; }
+  .block { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="unit">
+  <div class="header">
+    <div class="brand">speech jammer</div>
+  </div>
+
+  <div class="row">
+    <div class="block">
+      <div class="label">delay</div>
+      <div class="counter-display"><span id="delayReadout">200</span><span>ms</span></div>
+    </div>
+
+    <div class="block knob-block">
+      <div class="knob-wrap">
+        <svg class="knob-ticks" viewBox="0 0 108 108">
+          <text x="12" y="88" text-anchor="middle">0</text>
+          <text x="54" y="14" text-anchor="middle">250</text>
+          <text x="96" y="88" text-anchor="middle">500</text>
+        </svg>
+        <div class="knob-face" id="knobFace">
+          <div class="knob-pointer" id="knobPointer"></div>
+        </div>
+      </div>
+      <div class="quickset">
+        <button class="qbtn" data-ms="50">short</button>
+        <button class="qbtn active" data-ms="200">medium</button>
+        <button class="qbtn" data-ms="350">long</button>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="label">mic volume gain</div>
+      <div class="fader-track">
+        <div class="fader-slot"></div>
+        <div class="fader-cap" id="faderCap" style="bottom: 40%;"></div>
+      </div>
+      <div class="fader-value" id="volReadout">80%</div>
+    </div>
+  </div>
+
+  <div class="status-row">
+    <div class="label" style="margin:0;">input</div>
+    <div class="meter-leds" id="meterLeds"></div>
+  </div>
+
+  <div class="status-row" style="margin-top:10px; flex-direction: column; align-items: stretch; gap: 10px;">
+    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+      <div class="power-block">
+        <div class="switch" id="tartiniSwitch"><div class="switch-thumb"></div></div>
+      </div>
+      <div class="label" style="margin:0; text-align:right;">tartini generator</div>
+    </div>
+    <div class="quickset" style="margin-top: 0;">
+      <button class="tbtn" data-f1="1000" data-f2="1080">80Hz Deep</button>
+      <button class="tbtn active" data-f1="2000" data-f2="2180">180Hz Mid</button>
+      <button class="tbtn" data-f1="4000" data-f2="4400">400Hz High</button>
+    </div>
+  </div>
+
+  <div class="status-row" style="margin-top:10px;">
+    <div class="power-block">
+      <div class="pilot" id="pilot"></div>
+      <div class="switch" id="powerSwitch"><div class="switch-thumb"></div></div>
+    </div>
+    <div class="label" style="margin:0; text-align:right; flex:1;" id="powerLabel">standby</div>
+  </div>
+
+  <div class="status-line" id="statusLine"></div>
+
+  <div class="caution">don't use speakers unless you want to feel pain</div>
+</div>
+
+<script>
+(function(){
+  const MIN_MS = 0, MAX_MS = 500;
+  const MAX_GAIN = 200;
+  const knobFace = document.getElementById('knobFace');
+  const knobPointer = document.getElementById('knobPointer');
+  const delayReadout = document.getElementById('delayReadout');
+  const faderCap = document.getElementById('faderCap');
+  const faderTrack = document.querySelector('.fader-track');
+  const volReadout = document.getElementById('volReadout');
+  const powerSwitch = document.getElementById('powerSwitch');
+  const tartiniSwitch = document.getElementById('tartiniSwitch');
+  const pilot = document.getElementById('pilot');
+  const powerLabel = document.getElementById('powerLabel');
+  const statusLine = document.getElementById('statusLine');
+  const meterLedsEl = document.getElementById('meterLeds');
+  const qbtns = document.querySelectorAll('.qbtn');
+  const tbtns = document.querySelectorAll('.tbtn');
+
+  let delayMs = 200;
+  let volPct = 80; 
+  let running = false;
+  let tartiniEnabled = false;
+
+  let tartiniF1 = 2000;
+  let tartiniF2 = 2180;
+
+  let audioCtx=null, sourceNode=null, delayNode=null, gainNode=null, analyser=null, stream=null, meterRaf=null;
+  let tartiniOsc1=null, tartiniOsc2=null, tartiniGain=null;
+
+  const SEG_COUNT = 24;
+  const segs = [];
+  for(let i=0;i<SEG_COUNT;i++){
+    const s = document.createElement('div');
+    s.className = 'led-seg';
+    meterLedsEl.appendChild(s);
+    segs.push(s);
+  }
+
+  function setStatus(msg, isErr){
+    statusLine.textContent = msg || '';
+    statusLine.classList.toggle('err', !!isErr);
+  }
+
+  function updateKnob(ms){
+    delayMs = Math.max(MIN_MS, Math.min(MAX_MS, ms));
+    const angle = -135 + (delayMs / MAX_MS) * 270;
+    knobPointer.style.transform = 'rotate(' + angle + 'deg)';
+    delayReadout.textContent = Math.round(delayMs);
+    qbtns.forEach(b => b.classList.toggle('active', Number(b.dataset.ms) === Math.round(delayMs)));
+    if (delayNode) delayNode.delayTime.setTargetAtTime(delayMs/1000, audioCtx.currentTime, 0.01);
+  }
+
+  function updateFader(pct){
+    volPct = Math.max(0, Math.min(MAX_GAIN, pct));
+    faderCap.style.bottom = (volPct / MAX_GAIN * 100) + '%';
+    volReadout.textContent = Math.round(volPct) + '%';
+    if (gainNode) gainNode.gain.setTargetAtTime(volPct/100, audioCtx.currentTime, 0.01);
+  }
+
+  let knobDragging = false, knobStartY = 0, knobStartVal = 200;
+  function knobDown(e){
+    knobDragging = true;
+    knobStartY = (e.touches ? e.touches[0].clientY : e.clientY);
+    knobStartVal = delayMs;
+    e.preventDefault();
+  }
+  function knobMove(e){
+    if(!knobDragging) return;
+    const y = (e.touches ? e.touches[0].clientY : e.clientY);
+    const delta = knobStartY - y;
+    updateKnob(knobStartVal + delta * 2.6);
+  }
+  window.addEventListener('mousemove', knobMove);
+  window.addEventListener('touchmove', knobMove, {passive:false});
+  knobFace.addEventListener('mousedown', knobDown);
+  knobFace.addEventListener('touchstart', knobDown, {passive:false});
+  window.addEventListener('mouseup', () => knobDragging = false);
+  window.addEventListener('touchend', () => knobDragging = false);
+
+  qbtns.forEach(btn => {
+    btn.addEventListener('click', () => updateKnob(Number(btn.dataset.ms)));
+  });
+
+  tbtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tbtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      tartiniF1 = Number(btn.dataset.f1);
+      tartiniF2 = Number(btn.dataset.f2);
+      if (running && tartiniOsc1 && tartiniOsc2) {
+        tartiniOsc1.frequency.setTargetAtTime(tartiniF1, audioCtx.currentTime, 0.01);
+        tartiniOsc2.frequency.setTargetAtTime(tartiniF2, audioCtx.currentTime, 0.01);
+      }
+    });
+  });
+
+  let faderDragging = false;
+  function faderSetFromClientY(clientY){
+    const rect = faderTrack.getBoundingClientRect();
+    let frac = 1 - (clientY - rect.top) / rect.height;
+    frac = Math.max(0, Math.min(1, frac));
+    updateFader(frac * MAX_GAIN);
+  }
+  function faderDown(e){
+    faderDragging = true;
+    faderSetFromClientY(e.touches ? e.touches[0].clientY : e.clientY);
+    e.preventDefault();
+  }
+  function faderMove(e){
+    if(!faderDragging) return;
+    faderSetFromClientY(e.touches ? e.touches[0].clientY : e.clientY);
+  }
+  faderCap.addEventListener('mousedown', faderDown);
+  faderCap.addEventListener('touchstart', faderDown, {passive:false});
+  faderTrack.addEventListener('mousedown', faderDown);
+  window.addEventListener('mousemove', faderMove);
+  window.addEventListener('touchmove', faderMove, {passive:false});
+  window.addEventListener('mouseup', () => faderDragging = false);
+  window.addEventListener('touchend', () => faderDragging = false);
+
+  function animateMeter(){
+    if(!running || !analyser) return;
+    const data = new Uint8Array(analyser.fftSize);
+    analyser.getByteTimeDomainData(data);
+    let sum = 0;
+    for(let i=0;i<data.length;i++){ const v = (data[i]-128)/128; sum += v*v; }
+    const rms = Math.sqrt(sum/data.length);
+    const lit = Math.min(SEG_COUNT, Math.round(rms * SEG_COUNT * 3.2));
+    segs.forEach((s,i) => {
+      s.classList.remove('lit-amber','lit-red');
+      if(i < lit) s.classList.add(i > SEG_COUNT*0.83 ? 'lit-red' : 'lit-amber');
+    });
+    meterRaf = requestAnimationFrame(animateMeter);
+  }
+
+  function startTartini() {
+    if(!audioCtx) return;
+    tartiniOsc1 = audioCtx.createOscillator();
+    tartiniOsc2 = audioCtx.createOscillator();
+    tartiniGain = audioCtx.createGain();
+
+    tartiniOsc1.type = 'sine';
+    tartiniOsc1.frequency.value = tartiniF1;
+
+    tartiniOsc2.type = 'sine';
+    tartiniOsc2.frequency.value = tartiniF2;
+
+    tartiniGain.gain.value = 0.12;
+
+    tartiniOsc1.connect(tartiniGain);
+    tartiniOsc2.connect(tartiniGain);
+    tartiniGain.connect(audioCtx.destination);
+
+    tartiniOsc1.start();
+    tartiniOsc2.start();
+  }
+
+  function stopTartini() {
+    if(tartiniOsc1) { try{tartiniOsc1.stop();}catch(e){} tartiniOsc1.disconnect(); tartiniOsc1 = null; }
+    if(tartiniOsc2) { try{tartiniOsc2.stop();}catch(e){} tartiniOsc2.disconnect(); tartiniOsc2 = null; }
+    if(tartiniGain) { tartiniGain.disconnect(); tartiniGain = null; }
+  }
+
+  async function start(){
+    setStatus('connecting microphone…', false);
+    try{
+      stream = await navigator.mediaDevices.getUserMedia({
+        audio: { echoCancellation:false, noiseSuppression:false, autoGainControl:false }
+      });
+    }catch(err){
+      if(err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError'){
+        setStatus('microphone permission denied.', true);
+      } else {
+        setStatus('error: ' + err.message, true);
+      }
+      return;
+    }
+
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    sourceNode = audioCtx.createMediaStreamSource(stream);
+    delayNode = audioCtx.createDelay(1.0);
+    gainNode = audioCtx.createGain();
+    analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 512;
+
+    delayNode.delayTime.value = delayMs/1000;
+    gainNode.gain.value = volPct/100;
+
+    sourceNode.connect(analyser);
+    sourceNode.connect(delayNode);
+    delayNode.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    running = true;
+    powerSwitch.classList.add('on');
+    pilot.classList.add('on');
+    powerLabel.textContent = 'live';
+    setStatus('', false);
+    animateMeter();
+
+    if (tartiniEnabled) startTartini();
+  }
+
+  function stop(){
+    running = false;
+    if(meterRaf) cancelAnimationFrame(meterRaf);
+    segs.forEach(s => s.classList.remove('lit-amber','lit-red'));
+    if(stream){ stream.getTracks().forEach(t=>t.stop()); stream=null; }
+    stopTartini();
+    if(audioCtx){ audioCtx.close(); audioCtx=null; }
+    sourceNode=null; delayNode=null; gainNode=null; analyser=null;
+    powerSwitch.classList.remove('on');
+    pilot.classList.remove('on');
+    powerLabel.textContent = 'standby';
+    setStatus('', false);
+  }
+
+  powerSwitch.addEventListener('click', () => { running ? stop() : start(); });
+  
+  tartiniSwitch.addEventListener('click', () => {
+    tartiniEnabled = !tartiniEnabled;
+    tartiniSwitch.classList.toggle('on', tartiniEnabled);
+    if (running) {
+      tartiniEnabled ? startTartini() : stopTartini();
+    }
+  });
+
+  updateKnob(delayMs);
+  updateFader(volPct);
+})();
+</script>
+
+</body>
+</html>
